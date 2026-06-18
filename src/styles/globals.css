@@ -521,43 +521,4 @@ img {
 .bg-ucsd-sand { background-color: var(--ucsd-sand); }
 .border-ucsd-blue { border-color: var(--ucsd-blue); }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0e1a30;
-    --foreground: #eceff4;
-    --primary: var(--ucsd-yellow);
-    --primary-foreground: var(--ucsd-navy);
-    --secondary: #243a5e;
-    --muted: #1f3354;
-    --muted-foreground: #9fa8b8;
-    --ring: var(--ucsd-yellow);
-  }
 
-  .skill-card {
-    background: #182b49;
-    border-color: #2c4267;
-  }
-
-  .skill-detail blockquote {
-    background: #1f3354;
-    color: #eceff4;
-  }
-
-  .skill-detail code {
-    background: #1f3354;
-  }
-
-  .search-input {
-    background: #182b49;
-    color: #eceff4;
-    border-color: #2c4267;
-  }
-
-  .layout-title {
-    background: #0e1a30;
-  }
-
-  .title-header {
-    color: #eceff4;
-  }
-}
