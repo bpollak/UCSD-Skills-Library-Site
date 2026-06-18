@@ -52,7 +52,25 @@ export default function SkillPage({ skill }: SkillPageProps) {
 
       {/* Header */}
       <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '32px' }}>
-        <div style={{ fontSize: '48px', lineHeight: 1, flexShrink: 0 }}>{skill.emoji}</div>
+        <div
+          style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '50%',
+            backgroundColor: accent,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            color: '#fff',
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 700,
+            fontSize: '24px',
+            letterSpacing: '1px',
+          }}
+        >
+          {skill.initials}
+        </div>
         <div style={{ flex: 1 }}>
           <h1 className="ucsd-h1" style={{ marginBottom: '8px', borderBottom: 'none', paddingBottom: 0 }}>
             {skill.name}

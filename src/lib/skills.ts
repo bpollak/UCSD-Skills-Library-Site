@@ -5,7 +5,7 @@ export interface SkillMeta {
   name: string;
   description: string;
   allowedTools?: string;
-  emoji: string;
+  initials: string;
 }
 
 export interface SkillDetail extends SkillMeta {
@@ -16,24 +16,21 @@ export interface SkillDetail extends SkillMeta {
 const GITHUB_RAW = 'https://raw.githubusercontent.com/bpollak/UCSD-Skills-Library/main';
 const MANIFEST_URL = `${GITHUB_RAW}/manifest.json`;
 
-const EMOJI_MAP: Record<string, string> = {
-  'tritonai-feedback': '📬',
-  'ucsd-msgraph-calendar': '📅',
-  'ucsd-branding': '🎨',
-};
-
 const ACCENT_COLORS: Record<string, string> = {
   'tritonai-feedback': '#00C6D7',
   'ucsd-msgraph-calendar': '#D462AD',
   'ucsd-branding': '#C69214',
 };
 
-export function getSkillEmoji(slug: string): string {
-  return EMOJI_MAP[slug] || '🧩';
-}
-
 export function getSkillAccent(slug: string): string {
   return ACCENT_COLORS[slug] || '#00629B';
+}
+
+function deriveInitials(name: string): string {
+  return name
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase())
+    .join('');
 }
 
 async function fetchText(url: string): Promise<string> {
@@ -59,7 +56,7 @@ export async function fetchSkillList(): Promise<SkillMeta[]> {
         name: data.name || name,
         description: (data.description || '').replace(/\s+/g, ' ').trim(),
         allowedTools: data['allowed-tools'] || '',
-        emoji: getSkillEmoji(name),
+        initials: deriveInitials(name),
       });
     } catch {
       skills.push({
@@ -67,7 +64,7 @@ export async function fetchSkillList(): Promise<SkillMeta[]> {
         name,
         description: '',
         allowedTools: '',
-        emoji: getSkillEmoji(name),
+        initials: deriveInitials(name),
       });
     }
   }
@@ -84,7 +81,7 @@ export async function fetchSkillDetail(slug: string): Promise<SkillDetail | null
       name: data.name || slug,
       description: (data.description || '').replace(/\s+/g, ' ').trim(),
       allowedTools: data['allowed-tools'] || '',
-      emoji: getSkillEmoji(slug),
+      initials: deriveInitials(slug),
       body: content,
       raw,
     };
