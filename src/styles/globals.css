@@ -162,13 +162,24 @@ img {
   margin-bottom: 0;
 }
 
+.navbar-default .navbar-nav {
+  margin: 0;
+  list-style: none;
+  padding-left: 0;
+}
+
+.navbar-default .navbar-nav > li {
+  float: left;
+}
+
 .navbar-default .navbar-nav > li > a {
   color: var(--ucsd-white);
   padding: 13px 15px;
   font-size: 16px;
+  line-height: 24px;
   text-decoration: none;
   transition: background-color 0.15s ease;
-  line-height: 24px;
+  display: block;
 }
 
 .navbar-default .navbar-nav > li > a:hover,
@@ -527,6 +538,7 @@ img {
 .navbar-collapse.collapse {
   display: block;
   height: auto !important;
+  visibility: visible;
 }
 
 @media (max-width: 767px) {
@@ -542,6 +554,7 @@ img {
   .navbar-collapse.collapse.in {
     display: block;
     height: auto !important;
+    visibility: visible;
   }
 
   .navbar-default .navbar-nav {
@@ -558,33 +571,6 @@ img {
   .navbar-default .navbar-nav > .active > a:focus {
     border-bottom: none;
     padding-bottom: 10px;
-  }
-}
-
-.navbar-toggle .icon-bar {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--ucsd-white);
-  margin: 4px 0;
-}
-
-@media (max-width: 767px) {
-  .navbar-toggle {
-    display: block;
-    float: right;
-  }
-  .nav-collapse {
-    display: none;
-    clear: both;
-  }
-  .nav-collapse.open {
-    display: block;
-  }
-  .ucsd-navbar .nav-link {
-    display: block;
-    padding: 12px 15px;
-    border-top: 1px solid rgba(255,255,255,0.15);
   }
 }
 
