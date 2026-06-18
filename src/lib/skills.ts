@@ -29,6 +29,7 @@ export function getSkillAccent(slug: string): string {
 function deriveInitials(name: string): string {
   return name
     .split('-')
+    .slice(0, 2)
     .map((part) => part.charAt(0).toUpperCase())
     .join('');
 }
