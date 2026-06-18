@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,7 +13,15 @@ const NAV_ITEMS = [
 ];
 
 export default function Layout({ children, title }: LayoutProps) {
+  const router = useRouter();
   const [navOpen, setNavOpen] = useState(false);
+
+  function isActive(href: string): boolean {
+    if (href === '/') {
+      return router.pathname === '/';
+    }
+    return router.pathname.startsWith(href);
+  }
 
   return (
     <>
@@ -37,36 +46,34 @@ export default function Layout({ children, title }: LayoutProps) {
         </section>
       </header>
 
-      <nav className="ucsd-navbar">
+      <nav className="navbar navbar-default navbar-static-top">
         <div className="layout-container">
-          <button
-            className="navbar-toggle"
-            onClick={() => setNavOpen(!navOpen)}
-            aria-label="Toggle navigation"
-          >
-            <span className="icon-bar" />
-            <span className="icon-bar" />
-            <span className="icon-bar" />
-          </button>
-          <div className={`nav-collapse ${navOpen ? 'open' : ''}`}>
-            {NAV_ITEMS.map((item) => {
-              const isActive =
-                typeof window !== 'undefined' &&
-                item.href !== '/'
-                  ? window.location.pathname.startsWith(item.href)
-                  : typeof window !== 'undefined' &&
-                    window.location.pathname === '/UCSD-Skills-Library-Site/';
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`nav-link ${isActive ? 'active' : ''}`}
-                  onClick={() => setNavOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+          <div className="navbar-header">
+            <button
+              type="button"
+              className={`navbar-toggle ${navOpen ? 'open' : 'collapsed'}`}
+              onClick={() => setNavOpen(!navOpen)}
+              aria-label="Toggle navigation"
+              aria-expanded={navOpen}
+            >
+              <span className="icon-bar" />
+              <span className="icon-bar" />
+              <span className="icon-bar" />
+            </button>
+          </div>
+          <div className={`navbar-collapse ${navOpen ? 'in' : 'collapse'}`} id="navbar">
+            <ul className="nav navbar-nav">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.href} className={isActive(item.href) ? 'active' : ''}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setNavOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </nav>
@@ -80,7 +87,7 @@ export default function Layout({ children, title }: LayoutProps) {
         </div>
       </main>
 
-      <footer className="ucsd-footer">
+      <footer className="footer">
         <div className="layout-container">
           <div style={{ overflow: 'hidden' }}>
             <div style={{ float: 'left' }}>
@@ -89,7 +96,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 <br />
                 <span>Copyright &copy; {new Date().getFullYear()} Regents of the University of California. All rights reserved.</span>
               </p>
-              <ul className="ucsd-footer-links">
+              <ul className="footer-links">
                 <li>
                   <a href="https://www.ucsd.edu/_about/legal/index.html" target="_blank" rel="noopener noreferrer">
                     Terms &amp; Conditions

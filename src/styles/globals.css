@@ -153,40 +153,47 @@ img {
   }
 }
 
-/* Navbar */
-.ucsd-navbar {
+/* Navbar — canonical Bootstrap 3 style matching Decorator 5 */
+.navbar.navbar-default {
   background-color: var(--navbar-bg);
   min-height: 50px;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 0;
 }
 
-.ucsd-navbar .nav-link {
+.navbar-default .navbar-nav > li > a {
   color: var(--ucsd-white);
-  padding: 9px 15px;
-  display: inline-block;
+  padding: 13px 15px;
   font-size: 16px;
   text-decoration: none;
   transition: background-color 0.15s ease;
+  line-height: 24px;
 }
 
-.ucsd-navbar .nav-link:hover {
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
   background-color: var(--navbar-hover);
+  color: var(--ucsd-white);
   text-decoration: none;
 }
 
-.ucsd-navbar .nav-link.active {
-  border-bottom: 3px solid var(--navbar-active-border);
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
   background-color: transparent;
+  color: var(--ucsd-white);
+  border-bottom: 3px solid var(--navbar-active-border);
+  padding-bottom: 10px;
 }
 
-.ucsd-navbar .nav-link.active:hover {
-  background-color: var(--navbar-hover);
-}
-
-/* Layout container */
+/* Layout container — matches Bootstrap .container with 15px gutters */
 .layout-container {
   max-width: 1200px;
   width: 98%;
   margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 @media (max-width: 1200px) {
@@ -195,8 +202,8 @@ img {
   }
 }
 
-/* Footer */
-.ucsd-footer {
+/* Footer — canonical Decorator 5 */
+.footer {
   background-color: var(--footer-bg);
   color: var(--footer-text);
   font-size: 90%;
@@ -204,28 +211,28 @@ img {
   border-top: 1px solid #ccc;
 }
 
-.ucsd-footer a {
+.footer a {
   color: var(--ucsd-white);
   text-decoration: underline;
 }
 
-.ucsd-footer-links {
+.footer-links {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.ucsd-footer-links li {
+.footer-links li {
   display: inline;
   border-right: 1px solid var(--ucsd-white);
   padding: 0 8px;
 }
 
-.ucsd-footer-links li:first-child {
+.footer-links li:first-child {
   padding-left: 0;
 }
 
-.ucsd-footer-links li:last-child {
+.footer-links li:last-child {
   border-right: none;
   padding-right: 0;
 }
@@ -242,7 +249,7 @@ img {
     display: block;
     margin-top: 12px;
   }
-  .ucsd-footer-links li {
+  .footer-links li {
     display: block;
     border-right: none;
     padding: 4px 0;
@@ -479,12 +486,79 @@ img {
 
 /* ===== Nav hamburger (mobile) ===== */
 
+/* Bootstrap 3 navbar toggle */
+.navbar-header {
+  position: relative;
+}
+
 .navbar-toggle {
-  display: none;
-  background: none;
-  border: none;
+  position: relative;
+  float: right;
   padding: 9px 10px;
+  margin-top: 8px;
+  margin-right: 0;
+  margin-bottom: 8px;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
   cursor: pointer;
+  display: none;
+}
+
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--ucsd-white);
+  margin: 4px 0;
+}
+
+.navbar-toggle:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* Bootstrap 3 navbar collapse */
+.navbar-collapse {
+  overflow: hidden;
+}
+
+.navbar-collapse.collapse {
+  display: block;
+  height: auto !important;
+}
+
+@media (max-width: 767px) {
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar-collapse.collapse {
+    display: none;
+    height: 0 !important;
+  }
+
+  .navbar-collapse.collapse.in {
+    display: block;
+    height: auto !important;
+  }
+
+  .navbar-default .navbar-nav {
+    margin: 7.5px -15px;
+  }
+
+  .navbar-default .navbar-nav > li > a {
+    padding: 10px 15px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .navbar-default .navbar-nav > .active > a,
+  .navbar-default .navbar-nav > .active > a:hover,
+  .navbar-default .navbar-nav > .active > a:focus {
+    border-bottom: none;
+    padding-bottom: 10px;
+  }
 }
 
 .navbar-toggle .icon-bar {
