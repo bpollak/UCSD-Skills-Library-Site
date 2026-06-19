@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Layout from '@/components/Layout';
 import SkillCard from '@/components/SkillCard';
 import { fetchSkillList, SkillMeta } from '@/lib/skills';
-import { getSkillPresentation } from '@/lib/skillPresentation';
 
 interface HomeProps {
   skills: SkillMeta[];
@@ -17,9 +16,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 };
 
 export default function Home({ skills }: HomeProps) {
-  const toolCount = new Set(skills.flatMap((s) => s.allowedTools ? s.allowedTools.split(', ') : [])).size;
-  const categoryCount = new Set(skills.map((skill) => getSkillPresentation(skill).category)).size;
-
   return (
     <Layout pageTitle="Skills Library">
       <section className="main-section library-intro">
@@ -52,33 +48,6 @@ export default function Home({ skills }: HomeProps) {
                 Start with the friendly title, confirm the skill ID, then open
                 the guide for setup notes and agent workflow details.
               </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="row skill-summary" aria-label="Skills summary">
-        <div className="col-sm-4">
-          <div className="panel panel-default">
-            <div className="panel-body">
-              <strong>{skills.length}</strong>
-              <span>Available Skills</span>
-            </div>
-          </div>
-        </div>
-        <div className="col-sm-4">
-          <div className="panel panel-default">
-            <div className="panel-body">
-              <strong>{categoryCount}</strong>
-              <span>Skill Categories</span>
-            </div>
-          </div>
-        </div>
-        <div className="col-sm-4">
-          <div className="panel panel-default">
-            <div className="panel-body">
-              <strong>{toolCount}</strong>
-              <span>Tool Integrations</span>
             </div>
           </div>
         </div>
