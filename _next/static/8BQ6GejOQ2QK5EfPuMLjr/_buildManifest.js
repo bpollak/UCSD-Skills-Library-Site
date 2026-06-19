@@ -9,10 +9,10 @@ self.__BUILD_MANIFEST = {
     "static/chunks/3chq9gl58gyvb.js"
   ],
   "/skills": [
-    "static/chunks/3_vv03h03pj04.js"
+    "static/chunks/2ofkcfd-r7-20.js"
   ],
   "/skills/[slug]": [
-    "static/chunks/3qf5x_ymfctzs.js"
+    "static/chunks/3ic0xhrrn3mv1.js"
   ],
   "__rewrites": {
     "afterFiles": [],
