@@ -86,7 +86,12 @@ function normalizeCatalog(catalog: unknown): SkillCatalog | undefined {
   return Object.fromEntries(
     Object.entries(data)
       .filter(([, value]) => value !== undefined && value !== null)
-      .map(([key, value]) => [key, String(value).replace(/\s+/g, ' ').trim()])
+      .map(([key, value]) => [
+        key,
+        value instanceof Date
+          ? value.toISOString().slice(0, 10)
+          : String(value).replace(/\s+/g, ' ').trim(),
+      ])
   );
 }
 
