@@ -14,7 +14,7 @@ export default function SkillCard({ skill }: SkillCardProps) {
 
   return (
     <Link href={`/skills/${skill.slug}`} className="skill-panel-link">
-      <div className="panel panel-default skill-panel">
+      <div className={`panel panel-default skill-panel skill-accent-${presentation.accent}`}>
         <div className="panel-heading">
           <span className="label label-primary">{presentation.category}</span>
         </div>

@@ -92,16 +92,62 @@ img {
 
 .skill-panel-link:focus .panel,
 .skill-panel-link:hover .panel {
-  border-color: #00629b;
+  border-color: var(--skill-accent);
   box-shadow: 0 2px 10px rgba(0, 40, 85, 0.16);
   transform: translateY(-2px);
 }
 
 .skill-panel {
-  border-top: 4px solid #00629b;
+  --skill-accent: #00629b;
+  --skill-accent-dark: #004a75;
+  --skill-accent-label-text: #fff;
+  --skill-accent-soft: #e8f2f7;
+  border-top: 4px solid var(--skill-accent);
   display: flex;
   flex-direction: column;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.skill-accent-blue {
+  --skill-accent: #00629b;
+  --skill-accent-dark: #004a75;
+  --skill-accent-label-text: #fff;
+  --skill-accent-soft: #e8f2f7;
+}
+
+.skill-accent-teal {
+  --skill-accent: #006a8e;
+  --skill-accent-dark: #004e68;
+  --skill-accent-label-text: #fff;
+  --skill-accent-soft: #e5f4f7;
+}
+
+.skill-accent-gold {
+  --skill-accent: #c69214;
+  --skill-accent-dark: #744f00;
+  --skill-accent-label-text: #182b49;
+  --skill-accent-soft: #fbf4df;
+}
+
+.skill-accent-burgundy {
+  --skill-accent: #8f1d3a;
+  --skill-accent-dark: #651328;
+  --skill-accent-label-text: #fff;
+  --skill-accent-soft: #f8e8ee;
+}
+
+.skill-accent-green {
+  --skill-accent: #4f6f2a;
+  --skill-accent-dark: #354f1d;
+  --skill-accent-label-text: #fff;
+  --skill-accent-soft: #edf4e6;
+}
+
+.skill-accent-purple {
+  --skill-accent: #6d4c8d;
+  --skill-accent-dark: #4f3768;
+  --skill-accent-label-text: #fff;
+  --skill-accent-soft: #f0eaf5;
 }
 
 .skill-panel .panel-heading {
@@ -111,6 +157,8 @@ img {
 }
 
 .skill-panel .panel-heading .label {
+  background-color: var(--skill-accent) !important;
+  color: var(--skill-accent-label-text);
   display: inline-block;
   padding: 0.45em 0.7em;
   width: auto;
@@ -125,9 +173,9 @@ img {
 }
 
 .skill-card-icon {
-  background: #f4f0e6;
+  background: var(--skill-accent-soft);
   border-radius: 50%;
-  color: #00629b;
+  color: var(--skill-accent-dark);
   display: inline-block;
   font-size: 1.7em;
   height: 52px;
@@ -186,7 +234,7 @@ img {
 
 .skill-panel .panel-footer {
   background: #f7f7f7;
-  color: #00629b;
+  color: var(--skill-accent-dark);
   font-weight: 700;
 }
 

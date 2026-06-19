@@ -6,6 +6,7 @@ export interface SkillPresentation {
   category: string;
   audience: string;
   icon: string;
+  accent: string;
   tags: string[];
 }
 
@@ -16,6 +17,7 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     category: 'Feedback',
     audience: 'Campus AI users',
     icon: 'comment',
+    accent: 'teal',
     tags: ['Support', 'Feedback', 'TritonAI'],
   },
   'ucsd-msgraph-calendar': {
@@ -24,6 +26,7 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     category: 'Campus Productivity',
     audience: 'Calendar-enabled agents',
     icon: 'calendar',
+    accent: 'blue',
     tags: ['Calendar', 'Microsoft 365', 'Scheduling'],
   },
   'ucsd-branding': {
@@ -32,6 +35,7 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     category: 'Design System',
     audience: 'Web and content builders',
     icon: 'picture',
+    accent: 'gold',
     tags: ['Branding', 'Decorator V5', 'Web Design'],
   },
   'ucsd-data-classification': {
@@ -40,6 +44,7 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     category: 'Security & Data Protection',
     audience: 'App and data pipeline builders',
     icon: 'lock',
+    accent: 'burgundy',
     tags: ['IS-3', 'Security', 'Data Handling'],
   },
   'ucsd-memory': {
@@ -48,6 +53,7 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     category: 'Knowledge & Documentation',
     audience: 'Agents using local memory',
     icon: 'book',
+    accent: 'green',
     tags: ['Memory', 'Markdown', 'Knowledge Base'],
   },
   'ucsd-memory-create': {
@@ -56,6 +62,7 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     category: 'Knowledge & Documentation',
     audience: 'Memory vault setup',
     icon: 'folder-open',
+    accent: 'purple',
     tags: ['Memory Setup', 'Obsidian', 'Automation'],
   },
 };
@@ -80,6 +87,7 @@ export function getSkillPresentation(skill: SkillMeta): SkillPresentation {
     category: skill.catalog?.category || 'Reusable Skill',
     audience: skill.catalog?.owner ? `${skill.catalog.owner} users` : 'Agent builders',
     icon: 'wrench',
+    accent: 'blue',
     tags: [],
   };
 }
