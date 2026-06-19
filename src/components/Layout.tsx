@@ -131,14 +131,16 @@ export default function Layout({ children, title }: LayoutProps) {
               aria-controls="navbar"
             >
               <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar" />
-              <span className="icon-bar" />
-              <span className="icon-bar" />
+              <div className="col-sm-1 mobile-nav-bars">
+                <span className="icon-bar" />
+                <span className="icon-bar" />
+                <span className="icon-bar" />
+              </div>
+              <div className="col-sm-1 mobile-nav-icon">
+                MENU
+              </div>
             </button>
-            <div className="visible-xs-inline-block mobile-nav-icon">
-              <span className="mobile-nav-label">MENU</span>
-            </div>
-            <div className="visible-xs-block pull-right mobile-header-logo">
+            <div className="col-sm-4 pull-right visible-xs-block mobile-header-logo">
               <img
                 src="https://cdn.ucsd.edu/developer/decorator/5.0.2/img/ucsd-footer-logo-white.png"
                 alt="UC San Diego"
