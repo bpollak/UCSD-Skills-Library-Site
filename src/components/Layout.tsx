@@ -269,7 +269,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 MENU
               </div>
             </button>
-            <div className="col-sm-4 pull-right visible-xs-block mobile-header-logo">
+            <div className="visible-xs-block mobile-header-logo">
               <img
                 src={UCSD_WHITE_LOGO}
                 alt="UC San Diego"
