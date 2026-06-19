@@ -34,6 +34,30 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     icon: 'picture',
     tags: ['Branding', 'Decorator V5', 'Web Design'],
   },
+  'ucsd-data-classification': {
+    title: 'UCSD Data Classification and Handling',
+    summary: 'Classify UC San Diego data under UC IS-3 Protection Levels and apply handling controls for storage, logging, access, and vendors.',
+    category: 'Security & Data Protection',
+    audience: 'App and data pipeline builders',
+    icon: 'lock',
+    tags: ['IS-3', 'Security', 'Data Handling'],
+  },
+  'ucsd-memory': {
+    title: 'UCSD Memory',
+    summary: 'Use, search, cite, update, and maintain an existing local TritonAI Markdown memory vault.',
+    category: 'Knowledge & Documentation',
+    audience: 'Agents using local memory',
+    icon: 'book',
+    tags: ['Memory', 'Markdown', 'Knowledge Base'],
+  },
+  'ucsd-memory-create': {
+    title: 'UCSD Memory Create',
+    summary: 'Create a local TritonAI memory vault with starter notes, provenance rules, and optional scheduled sync jobs.',
+    category: 'Knowledge & Documentation',
+    audience: 'Memory vault setup',
+    icon: 'folder-open',
+    tags: ['Memory Setup', 'Obsidian', 'Automation'],
+  },
 };
 
 function titleCaseFromSlug(slug: string): string {
@@ -51,10 +75,10 @@ function firstSentence(text: string): string {
 
 export function getSkillPresentation(skill: SkillMeta): SkillPresentation {
   return PRESENTATION[skill.slug] || {
-    title: skill.name && skill.name !== skill.slug ? skill.name : titleCaseFromSlug(skill.slug),
-    summary: firstSentence(skill.description),
-    category: 'Reusable Skill',
-    audience: 'Agent builders',
+    title: skill.catalog?.title || (skill.name && skill.name !== skill.slug ? skill.name : titleCaseFromSlug(skill.slug)),
+    summary: skill.catalog?.description || firstSentence(skill.description),
+    category: skill.catalog?.category || 'Reusable Skill',
+    audience: skill.catalog?.owner ? `${skill.catalog.owner} users` : 'Agent builders',
     icon: 'wrench',
     tags: [],
   };
@@ -71,6 +95,13 @@ export function getSkillSearchText(skill: SkillMeta): string {
     presentation.summary,
     presentation.category,
     presentation.audience,
+    skill.catalog?.title,
+    skill.catalog?.description,
+    skill.catalog?.category,
+    skill.catalog?.status,
+    skill.catalog?.publicationStatus,
+    skill.catalog?.tier,
+    skill.catalog?.owner,
     ...presentation.tags,
   ]
     .filter(Boolean)
