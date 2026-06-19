@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next';
+import Link from 'next/link';
 import { useState } from 'react';
 import Layout from '@/components/Layout';
 import SkillCard from '@/components/SkillCard';
@@ -28,7 +29,12 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
   });
 
   return (
-    <Layout title="Skills Library">
+    <Layout>
+      <ol className="breadcrumb breadcrumbs-list" aria-label="Breadcrumb">
+        <li><Link href="/">Home</Link></li>
+        <li className="active">Skills Library</li>
+      </ol>
+      <h1 className="page-header">Skills Library</h1>
       <p className="lead">
         Browse reusable TritonAI skills by what they help an agent do. Canonical skill IDs are
         still shown for installation and reference, but the library is organized around plain

@@ -7,12 +7,13 @@ img {
 }
 
 .site-main-container {
-  padding: 32px 15px 48px;
+  padding: 0 15px 48px;
 }
 
 .library-intro {
   border-bottom: 1px solid #ddd;
   margin-bottom: 28px;
+  padding-top: 32px;
   padding-bottom: 24px;
 }
 
@@ -338,31 +339,6 @@ body.offcanvas-open {
 }
 
 @media only screen and (max-width: 767px) {
-  .navbar .container {
-    overflow: hidden;
-  }
-
-  .navbar .container > .navbar-header {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .mobile-header-logo {
-    float: right;
-    max-width: calc(100% - 125px);
-    min-height: 45px;
-    padding-left: 0;
-    padding-right: 15px;
-    padding-top: 9px;
-    text-align: right;
-  }
-
-  .mobile-header-logo .header-logo {
-    display: inline-block;
-    max-height: 36px;
-    width: auto;
-  }
-
   .msearch .mobile-search-content {
     background-color: #fff;
     border-bottom: 2px solid #bdbdbd;

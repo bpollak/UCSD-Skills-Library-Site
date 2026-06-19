@@ -15,7 +15,7 @@ interface NavItem {
 }
 
 const TRITONAI_URL = 'https://tritonai.ucsd.edu';
-const UCSD_WHITE_LOGO = 'https://cdn.ucsd.edu/cms/decorator-5/styles/img/ucsd-footer-logo-white.png';
+const UCSD_WHITE_LOGO = 'https://cdn.ucsd.edu/developer/decorator/5.0.2/img/ucsd-footer-logo-white.png';
 const UCSD_FOOTER_LOGO = 'https://cdn.ucsd.edu/developer/decorator/5.0.2/img/ucsd-footer-logo-white.png';
 
 const NAV_ITEMS: NavItem[] = [
@@ -269,7 +269,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 MENU
               </div>
             </button>
-            <div className="visible-xs-block mobile-header-logo">
+            <div className="col-sm-4 pull-right visible-xs-block">
               <img
                 src={UCSD_WHITE_LOGO}
                 alt="UC San Diego"
