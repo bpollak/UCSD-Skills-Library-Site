@@ -348,6 +348,19 @@ body.offcanvas-open {
     min-height: 0;
   }
 
+  .skill-detail-layout .skill-detail,
+  .skill-detail-layout .sidebar-section {
+    clear: both;
+    float: none !important;
+    width: 100%;
+  }
+
+  .skill-detail-layout .sidebar-section {
+    margin-top: 24px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
   .skill-card-meta dt {
     float: none;
     width: auto;

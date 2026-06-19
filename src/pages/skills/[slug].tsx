@@ -92,7 +92,7 @@ export default function SkillPage({ skill }: SkillPageProps) {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row skill-detail-layout">
         <section className="main-section col-md-8 pull-right skill-detail" aria-label="Main Content">
           <div className="alert alert-info">
             <strong>Original skill description:</strong> {skill.description}
