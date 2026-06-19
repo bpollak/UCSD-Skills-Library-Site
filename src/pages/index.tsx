@@ -45,8 +45,9 @@ export default function Home({ skills }: HomeProps) {
             <div className="well library-guidance">
               <h2>Find the right skill</h2>
               <p>
-                Start with the friendly title, confirm the skill ID, then open
-                the guide for setup notes and agent workflow details.
+                These skills plug into the TritonAI harness to extend what agents can do
+                across campus workflows. Start with the friendly title, confirm the skill ID,
+                and check back as more skills come online.
               </p>
             </div>
           </div>
