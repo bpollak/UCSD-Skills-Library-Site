@@ -41,6 +41,24 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
         reference, with friendly titles and practical use cases.
       </p>
 
+      <div className="panel panel-default skill-access-panel">
+        <div className="panel-heading">
+          <h2 className="panel-title">Use these skills</h2>
+        </div>
+        <div className="panel-body">
+          <p>
+            Skills are public to read on GitHub. To use one in a local agent,
+            install the full skill folder into the skills directory your agent loads.
+          </p>
+          <pre className="install-command"><code>curl -fsSL https://raw.githubusercontent.com/bpollak/UCSD-Skills-Library/main/scripts/install-skills.sh | bash</code></pre>
+          <p>
+            The installer defaults to <code>~/.agents/ucsd/skills</code> and installs
+            generally available skills. Skill detail pages show one-skill install
+            commands and any limited-access requirements.
+          </p>
+        </div>
+      </div>
+
       <div className="well library-filter-panel">
         <div className="row">
           <div className="col-sm-8">

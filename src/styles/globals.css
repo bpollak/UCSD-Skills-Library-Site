@@ -276,6 +276,35 @@ img {
   margin-bottom: 24px;
 }
 
+.skill-access-panel {
+  border-top: 4px solid #c69214;
+  margin-bottom: 24px;
+}
+
+.skill-access-panel .panel-heading {
+  background: #f7f7f7;
+}
+
+.install-command {
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  color: #182b49;
+  margin: 12px 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.limited-access-requirements {
+  border-left: 4px solid #8f1d3a;
+  margin: 14px 0;
+  padding-left: 12px;
+}
+
+.limited-access-requirements ul {
+  margin-bottom: 0;
+}
+
 .filter-summary {
   margin: 7px 0 0;
   text-align: right;

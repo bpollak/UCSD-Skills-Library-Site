@@ -19,6 +19,8 @@ const markdownComponents: Components = {
   h5: 'h6',
 };
 
+const INSTALL_SCRIPT_URL = 'https://raw.githubusercontent.com/bpollak/UCSD-Skills-Library/main/scripts/install-skills.sh';
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const skills = await fetchSkillList();
   const paths = skills.map((s: SkillMeta) => ({
@@ -58,6 +60,8 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
   const tools = skill.allowedTools
     ? skill.allowedTools.split(', ').filter(Boolean)
     : [];
+  const installCommand = `curl -fsSL ${INSTALL_SCRIPT_URL} | SKILLS="${skill.slug}" bash`;
+  const isLimitedAccess = statusIndicator?.tone === 'limited';
 
   return (
     <Layout pageTitle={presentation.title}>
@@ -122,6 +126,51 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
               ))}
             </p>
           )}
+        </div>
+      </div>
+
+      <div className="panel panel-default skill-access-panel">
+        <div className="panel-heading">
+          <h2 className="panel-title">Access and Installation</h2>
+        </div>
+        <div className="panel-body">
+          <p>
+            Install the full skill folder into the skills directory your local
+            agent loads. The installer defaults to <code>~/.agents/ucsd/skills</code>.
+          </p>
+          <pre className="install-command"><code>{installCommand}</code></pre>
+          {statusIndicator?.tone === 'experimental' && (
+            <p>
+              This skill is generally available, but it remains experimental while
+              the workflow is reviewed and refined.
+            </p>
+          )}
+          {isLimitedAccess && (
+            <div className="limited-access-requirements">
+              <p>
+                <strong>Installing the files is not enough for this skill.</strong>
+                {' '}You also need the service access and local configuration required
+                by the integration.
+              </p>
+              {skill.slug === 'ucsd-msgraph-calendar' && (
+                <ul>
+                  <li>UC San Diego Microsoft 365 calendar access.</li>
+                  <li>A Microsoft Entra app registration or approved configured client.</li>
+                  <li>Delegated Microsoft Graph permissions such as <code>Calendars.Read</code> and <code>User.Read</code>.</li>
+                  <li>Device-code authentication and local Python dependencies.</li>
+                </ul>
+              )}
+            </div>
+          )}
+          <p>
+            <a
+              href="https://github.com/bpollak/UCSD-Skills-Library#access-install-and-use"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View full install instructions on GitHub
+            </a>
+          </p>
         </div>
       </div>
 
