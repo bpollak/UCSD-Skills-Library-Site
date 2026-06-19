@@ -7,37 +7,191 @@ interface LayoutProps {
   title?: string;
 }
 
-const NAV_ITEMS = [
-  { href: '/', label: 'Home' },
-  { href: '/skills', label: 'Skills Library' },
+interface NavItem {
+  href: string;
+  label: string;
+  local?: boolean;
+  children?: NavItem[];
+}
+
+const TRITONAI_URL = 'https://tritonai.ucsd.edu';
+const UCSD_WHITE_LOGO = 'https://cdn.ucsd.edu/cms/decorator-5/styles/img/ucsd-footer-logo-white.png';
+const UCSD_FOOTER_LOGO = 'https://cdn.ucsd.edu/developer/decorator/5.0.2/img/ucsd-footer-logo-white.png';
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    href: `${TRITONAI_URL}/about/index.html`,
+    label: 'About',
+    children: [
+      { href: `${TRITONAI_URL}/about/roadmap.html`, label: 'Roadmap' },
+      { href: `${TRITONAI_URL}/about/sustainability.html`, label: 'Sustainable AI' },
+      { href: `${TRITONAI_URL}/about/workgroup.html`, label: 'AI Development Workgroup' },
+      { href: `${TRITONAI_URL}/about/get-involved.html`, label: 'Get Involved' },
+      { href: `${TRITONAI_URL}/about/ai-updates.html`, label: 'AI Updates' },
+    ],
+  },
+  {
+    href: `${TRITONAI_URL}/tritongpt/index.html`,
+    label: 'TritonGPT',
+    children: [
+      { href: `${TRITONAI_URL}/training-resources/tritongpt/index.html`, label: 'Guides' },
+      { href: `${TRITONAI_URL}/tritongpt/instruction.html`, label: 'Instructional AI Pilot' },
+      { href: `${TRITONAI_URL}/tritongpt/chatbot-widget.html`, label: 'Chatbot Widget' },
+      { href: `${TRITONAI_URL}/tritongpt/release-notes/index.html`, label: 'Release Notes' },
+      { href: `${TRITONAI_URL}/tritongpt/terms.html`, label: 'Terms of Use' },
+      { href: `${TRITONAI_URL}/tritongpt/privacy.html`, label: 'Privacy Statement' },
+    ],
+  },
+  {
+    href: `${TRITONAI_URL}/training-resources/index.html`,
+    label: 'Training & Resources',
+    children: [
+      { href: `${TRITONAI_URL}/training-resources/tritongpt/index.html`, label: 'TritonGPT Guides' },
+      { href: `${TRITONAI_URL}/training-resources/prompting/index.html`, label: 'Prompting' },
+      { href: `${TRITONAI_URL}/training-resources/webinars.html`, label: 'AI Webinars' },
+      { href: `${TRITONAI_URL}/training-resources/faculty-ai-symposium.html`, label: 'Faculty AI Symposium' },
+      { href: `${TRITONAI_URL}/training-resources/faq.html`, label: 'FAQ' },
+    ],
+  },
+  {
+    href: `${TRITONAI_URL}/developer-apis/index.html`,
+    label: 'Developer APIs',
+    children: [
+      { href: `${TRITONAI_URL}/developer-apis/start.html`, label: 'Get Started' },
+      { href: `${TRITONAI_URL}/developer-apis/faq.html`, label: 'FAQs' },
+    ],
+  },
+  { href: `${TRITONAI_URL}/tools/index.html`, label: 'AI Tools' },
+  { href: '/', label: 'Skills Library', local: true },
 ];
+
+function isLocalSkillPath(pathname: string): boolean {
+  return pathname === '/' || pathname === '/skills' || pathname.startsWith('/skills/');
+}
+
+function NavLink({
+  item,
+  className,
+  onClick,
+  extra,
+}: {
+  item: NavItem;
+  className?: string;
+  onClick?: () => void;
+  extra?: ReactNode;
+}) {
+  if (item.local) {
+    return (
+      <Link href={item.href} className={className} onClick={onClick}>
+        {item.label}
+        {extra ? ' ' : null}
+        {extra}
+      </Link>
+    );
+  }
+
+  return (
+    <a href={item.href} className={className}>
+      {item.label}
+      {extra ? ' ' : null}
+      {extra}
+    </a>
+  );
+}
+
+function MobileNavItem({ item, onLocalClick }: { item: NavItem; onLocalClick: () => void }) {
+  const hasChildren = Boolean(item.children?.length);
+
+  return (
+    <li className={hasChildren ? 'dropdown open' : ''}>
+      <NavLink
+        item={item}
+        onClick={item.local ? onLocalClick : undefined}
+        extra={hasChildren ? <span className="caret" aria-hidden="true" /> : null}
+      />
+      {hasChildren && (
+        <ul className="dropdown-menu navmenu-nav">
+          {item.children?.map((child) => (
+            <li key={child.href}>
+              <NavLink item={child} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+function DesktopNavItem({
+  item,
+  active,
+}: {
+  item: NavItem;
+  active: boolean;
+}) {
+  const hasChildren = Boolean(item.children?.length);
+
+  return (
+    <li className={`${hasChildren ? 'dropdown' : ''}${active ? ' active' : ''}`}>
+      <NavLink
+        item={item}
+        className={hasChildren ? 'dropdown-toggle' : undefined}
+        extra={hasChildren ? <span className="caret" aria-hidden="true" /> : null}
+      />
+      {hasChildren && (
+        <ul className="dropdown-menu">
+          {item.children?.map((child) => (
+            <li key={child.href}>
+              <NavLink item={child} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+function SearchForm({ idPrefix }: { idPrefix: 'desktop' | 'mobile' }) {
+  const scopeId = idPrefix === 'desktop' ? 'search-scope' : 'search-scope-m';
+  const queryId = idPrefix === 'desktop' ? 'q' : 'q-m';
+  const queryName = idPrefix === 'desktop' ? 'search-term' : 'search-term-m';
+
+  return (
+    <form action={`${TRITONAI_URL}/search/index.html`} method="get" id={`${idPrefix}-cse-search-box`}>
+      <label className="sr-only" htmlFor={scopeId}>Search Scope</label>
+      <select className="search-scope" id={scopeId} name="search-scope">
+        <option value="tritonai">This Site</option>
+        <option value="default_collection">All UCSD Sites</option>
+        <option value="faculty-staff">Faculty/Staff</option>
+      </select>
+      <div className="input-group">
+        <label className="sr-only" htmlFor={queryId}>Search Term</label>
+        <input
+          placeholder="Search..."
+          type="search"
+          className="form-control search-term"
+          id={queryId}
+          name={queryName}
+        />
+      </div>
+    </form>
+  );
+}
 
 export default function Layout({ children, title }: LayoutProps) {
   const router = useRouter();
   const [navOpen, setNavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const skillSectionActive = isLocalSkillPath(router.pathname);
 
-  function isActive(href: string): boolean {
-    if (href === '/') {
-      return router.pathname === '/';
-    }
-    return router.pathname.startsWith(href);
-  }
-
-  // Close offcanvas on route change
   useEffect(() => {
     const handleRouteChange = () => setNavOpen(false);
     router.events.on('routeChangeStart', handleRouteChange);
     return () => router.events.off('routeChangeStart', handleRouteChange);
   }, [router.events]);
 
-  // Prevent body scroll when offcanvas is open
   useEffect(() => {
-    if (navOpen) {
-      document.body.classList.add('offcanvas-open');
-    } else {
-      document.body.classList.remove('offcanvas-open');
-    }
+    document.body.classList.toggle('offcanvas-open', navOpen);
     return () => document.body.classList.remove('offcanvas-open');
   }, [navOpen]);
 
@@ -50,12 +204,12 @@ export default function Layout({ children, title }: LayoutProps) {
         <div id="uc-emergency" />
         <section className="layout-title">
           <div className="layout-container container">
-            <Link href="/" className="title-header title-header-large">
-              TritonAI Skills Library
-            </Link>
-            <Link href="/" className="title-header title-header-short">
-              Skills
-            </Link>
+            <a className="title-header title-header-large" href={TRITONAI_URL}>
+              Triton AI
+            </a>
+            <a className="title-header title-header-short" href={TRITONAI_URL}>
+              Triton AI
+            </a>
             <a
               className="title-logo"
               href="https://ucsd.edu"
@@ -68,38 +222,18 @@ export default function Layout({ children, title }: LayoutProps) {
         </section>
       </header>
 
-      {/* Offcanvas mobile navigation panel */}
       <div
         className={`navmenu navmenu-default navmenu-fixed-left offcanvas${navOpen ? ' in' : ''}`}
         aria-hidden={!navOpen}
       >
-        <ul className="nav navbar-nav navbar-right offcanvas-search">
+        <ul className="nav navbar-nav navbar-right msearch">
           <li>
             <div className="search">
               <button className="search-toggle btn-default" type="button" aria-hidden="true">
                 <span className="glyphicon glyphicon-search" aria-hidden="true" /> <span className="caret" aria-hidden="true" />
               </button>
               <div className="search-content search-is-open mobile-search-content">
-                <form
-                  action="https://act.ucsd.edu/cwp/tools/search-redir"
-                  method="get"
-                  id="mobile-cse-site-search"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <select className="search-scope" name="search-scope" aria-label="Search scope">
-                    <option value="default_collection">All UCSD Sites</option>
-                    <option value="faculty-staff">Faculty/Staff</option>
-                  </select>
-                  <div className="input-group">
-                    <input
-                      placeholder="Search..."
-                      type="search"
-                      className="form-control search-term"
-                      name="search-term"
-                      aria-label="Search"
-                    />
-                  </div>
-                </form>
+                <SearchForm idPrefix="mobile" />
               </div>
             </div>
           </li>
@@ -107,16 +241,11 @@ export default function Layout({ children, title }: LayoutProps) {
 
         <ul className="nav navmenu-nav">
           {NAV_ITEMS.map((item) => (
-            <li key={item.href} className={isActive(item.href) ? 'active' : ''}>
-              <Link href={item.href} onClick={closeNav}>
-                {item.label}
-              </Link>
-            </li>
+            <MobileNavItem item={item} key={item.href} onLocalClick={closeNav} />
           ))}
         </ul>
       </div>
 
-      {/* Offcanvas overlay */}
       {navOpen && <div className="navmenu-backdrop" onClick={closeNav} />}
 
       <nav className="navbar navbar-default navbar-static-top">
@@ -142,7 +271,7 @@ export default function Layout({ children, title }: LayoutProps) {
             </button>
             <div className="col-sm-4 pull-right visible-xs-block mobile-header-logo">
               <img
-                src="https://cdn.ucsd.edu/developer/decorator/5.0.2/img/ucsd-footer-logo-white.png"
+                src={UCSD_WHITE_LOGO}
                 alt="UC San Diego"
                 className="img-responsive header-logo"
               />
@@ -150,11 +279,13 @@ export default function Layout({ children, title }: LayoutProps) {
           </div>
 
           <div className="navbar-collapse collapse" id="navbar">
-            <ul className="nav navbar-nav">
+            <ul className="nav navbar-nav navbar-nav-list">
               {NAV_ITEMS.map((item) => (
-                <li key={item.href} className={isActive(item.href) ? 'active' : ''}>
-                  <Link href={item.href}>{item.label}</Link>
-                </li>
+                <DesktopNavItem
+                  item={item}
+                  key={item.href}
+                  active={item.local ? skillSectionActive : false}
+                />
               ))}
             </ul>
 
@@ -176,26 +307,7 @@ export default function Layout({ children, title }: LayoutProps) {
                     className={`search-content${searchOpen ? ' search-is-open' : ''}`}
                     id="search"
                   >
-                    <form
-                      action="https://act.ucsd.edu/cwp/tools/search-redir"
-                      method="get"
-                      id="desktop-cse-site-search"
-                      onSubmit={(e) => e.preventDefault()}
-                    >
-                      <select className="search-scope" name="search-scope" aria-label="Search scope">
-                        <option value="default_collection">All UCSD Sites</option>
-                        <option value="faculty-staff">Faculty/Staff</option>
-                      </select>
-                      <div className="input-group">
-                        <input
-                          placeholder="Search..."
-                          type="search"
-                          className="form-control search-term"
-                          name="search-term"
-                          aria-label="Search"
-                        />
-                      </div>
-                    </form>
+                    <SearchForm idPrefix="desktop" />
                   </div>
                 </div>
               </li>
@@ -224,11 +336,6 @@ export default function Layout({ children, title }: LayoutProps) {
               </p>
               <ul className="footer-links">
                 <li>
-                  <a href="https://www.ucsd.edu/_about/legal/index.html" target="_blank" rel="noopener noreferrer">
-                    Terms &amp; Conditions
-                  </a>
-                </li>
-                <li>
                   <a href="https://accessibility.ucsd.edu/" target="_blank" rel="noopener noreferrer">
                     Accessibility
                   </a>
@@ -236,6 +343,11 @@ export default function Layout({ children, title }: LayoutProps) {
                 <li>
                   <a href="https://ucsd.edu/about/privacy.html" target="_blank" rel="noopener noreferrer">
                     Privacy
+                  </a>
+                </li>
+                <li>
+                  <a href="https://ucsd.edu/about/terms-of-use.html" target="_blank" rel="noopener noreferrer">
+                    Terms of Use
                   </a>
                 </li>
                 <li>
@@ -249,7 +361,7 @@ export default function Layout({ children, title }: LayoutProps) {
               <a href="https://ucsd.edu" target="_blank" rel="noopener noreferrer">
                 <img
                   className="footer-logo"
-                  src="https://cdn.ucsd.edu/developer/decorator/5.0.2/img/ucsd-footer-logo-white.png"
+                  src={UCSD_FOOTER_LOGO}
                   alt="UC San Diego homepage"
                 />
               </a>

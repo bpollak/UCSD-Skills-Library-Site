@@ -21,7 +21,7 @@ export default function Home({ skills }: HomeProps) {
   return (
     <Layout>
       <section className="main-section">
-        <h1 className="page-header">TritonAI Skills Library</h1>
+        <h1 className="page-header">Skills Library</h1>
         <p className="lead">
           A growing collection of reusable skills for the TritonAI agent ecosystem at UC San Diego.
           Browse, learn, and integrate AI-powered capabilities into your workflows.
