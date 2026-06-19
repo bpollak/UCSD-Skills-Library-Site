@@ -101,28 +101,13 @@ export default function SkillPage({ skill }: SkillPageProps) {
       </div>
 
       <div className="row skill-detail-layout">
-        <section className="main-section col-md-8 pull-right skill-detail" aria-label="Main Content">
+        <section className="main-section col-md-12 skill-detail" aria-label="Main Content">
           <div className="alert alert-info">
             <strong>Original skill description:</strong> {skill.description}
           </div>
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
             {skill.body}
           </ReactMarkdown>
-        </section>
-
-        <section className="sidebar-section col-md-4" role="complementary" aria-label="Sidebar">
-          <article className="panel panel-default skill-sidebar-panel">
-            <div className="panel-heading">
-              <h2 className="panel-title">At a glance</h2>
-            </div>
-            <div className="list-group">
-              {presentation.tags.map((tag) => (
-                <span className="list-group-item" key={tag}>
-                  <span className="glyphicon glyphicon-tag" aria-hidden="true" /> {tag}
-                </span>
-              ))}
-            </div>
-          </article>
         </section>
       </div>
 

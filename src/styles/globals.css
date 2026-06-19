@@ -281,15 +281,6 @@ img {
   padding-top: 12px;
 }
 
-.skill-sidebar-panel .list-group {
-  margin-bottom: 0;
-}
-
-.skill-sidebar-panel .glyphicon {
-  color: #00629b;
-  margin-right: 6px;
-}
-
 .skill-detail {
   min-width: 0;
 }
@@ -387,17 +378,10 @@ body.offcanvas-open {
 }
 
 @media only screen and (max-width: 991px) {
-  .skill-detail-layout .skill-detail,
-  .skill-detail-layout .sidebar-section {
+  .skill-detail-layout .skill-detail {
     clear: both;
     float: none !important;
     width: 100%;
-  }
-
-  .skill-detail-layout .sidebar-section {
-    margin-top: 24px;
-    padding-left: 15px;
-    padding-right: 15px;
   }
 }
 
