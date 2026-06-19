@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Layout from '@/components/Layout';
 import { fetchSkillList, fetchSkillDetail, SkillDetail, SkillMeta } from '@/lib/skills';
+import { getSkillPresentation } from '@/lib/skillPresentation';
 
 interface SkillPageProps {
   skill: SkillDetail | null;
@@ -37,48 +38,83 @@ export default function SkillPage({ skill }: SkillPageProps) {
     );
   }
 
+  const presentation = getSkillPresentation(skill);
+  const tools = skill.allowedTools
+    ? skill.allowedTools.split(', ').filter(Boolean)
+    : [];
+
   return (
     <Layout>
       <ol className="breadcrumb breadcrumbs-list" aria-label="Breadcrumb">
         <li><Link href="/">Home</Link></li>
         <li><Link href="/skills">Skills Library</Link></li>
-        <li className="active">{skill.name}</li>
+        <li className="active">{presentation.title}</li>
       </ol>
 
-      <h1 className="page-header">{skill.name}</h1>
-      <p className="lead">{skill.description}</p>
+      <section className="skill-detail-intro">
+        <p className="text-uppercase library-kicker">{presentation.category}</p>
+        <h1 className="page-header">{presentation.title}</h1>
+        <p className="lead">{presentation.summary}</p>
+      </section>
 
       <div className="panel panel-default skill-meta-panel">
         <div className="panel-body">
-          {skill.allowedTools && (
-            <p>
+          <div className="row">
+            <div className="col-sm-4">
+              <strong>Canonical Skill ID</strong>
+              <p><code>{skill.slug}</code></p>
+            </div>
+            <div className="col-sm-4">
+              <strong>Best For</strong>
+              <p>{presentation.audience}</p>
+            </div>
+            <div className="col-sm-4">
+              <strong>Source</strong>
+              <p>
+                <a
+                  href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on GitHub
+                </a>
+              </p>
+            </div>
+          </div>
+          {tools.length > 0 && (
+            <p className="skill-tool-list">
               <strong>Allowed Tools: </strong>
-              {skill.allowedTools.split(', ').map((tool) => (
+              {tools.map((tool) => (
                 <span className="badge" key={tool}>{tool}</span>
               ))}
             </p>
           )}
-          <p>
-            <strong>Source: </strong>
-            <a
-              href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on GitHub
-            </a>
-          </p>
         </div>
       </div>
 
       <div className="row">
         <section className="main-section col-md-8 pull-right skill-detail" aria-label="Main Content">
+          <div className="alert alert-info">
+            <strong>Original skill description:</strong> {skill.description}
+          </div>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {skill.body}
           </ReactMarkdown>
         </section>
 
         <section className="sidebar-section col-md-4" role="complementary" aria-label="Sidebar">
+          <article className="panel panel-default skill-sidebar-panel">
+            <div className="panel-heading">
+              <h2 className="panel-title">At a glance</h2>
+            </div>
+            <div className="list-group">
+              {presentation.tags.map((tag) => (
+                <span className="list-group-item" key={tag}>
+                  <span className="glyphicon glyphicon-tag" aria-hidden="true" /> {tag}
+                </span>
+              ))}
+            </div>
+          </article>
           <article className="main-content-nav" role="navigation" aria-label="Sidebar Nav">
             <h2>On this page</h2>
             <ul className="navbar-list">

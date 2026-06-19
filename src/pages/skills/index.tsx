@@ -4,6 +4,7 @@ import Layout from '@/components/Layout';
 import SkillCard from '@/components/SkillCard';
 import SearchBar from '@/components/SearchBar';
 import { fetchSkillList, SkillMeta } from '@/lib/skills';
+import { getSkillPresentation, getSkillSearchText } from '@/lib/skillPresentation';
 
 interface SkillsPageProps {
   skills: SkillMeta[];
@@ -18,44 +19,53 @@ export const getStaticProps: GetStaticProps<SkillsPageProps> = async () => {
 
 export default function SkillsPage({ skills }: SkillsPageProps) {
   const [search, setSearch] = useState('');
+  const categories = Array.from(new Set(skills.map((skill) => getSkillPresentation(skill).category)));
 
   const filtered = skills.filter((skill) => {
     if (!search.trim()) return true;
     const q = search.toLowerCase();
-    return (
-      skill.name.toLowerCase().includes(q) ||
-      skill.description.toLowerCase().includes(q) ||
-      (skill.allowedTools && skill.allowedTools.toLowerCase().includes(q))
-    );
+    return getSkillSearchText(skill).includes(q);
   });
 
   return (
     <Layout title="Skills Library">
       <p className="lead">
-        Browse all available skills in the TritonAI ecosystem. Each skill provides a specific
-        capability that agents can use to interact with campus services and tools.
+        Browse reusable TritonAI skills by what they help an agent do. Canonical skill IDs are
+        still shown for installation and reference, but the library is organized around plain
+        language titles and use cases.
       </p>
 
-      <SearchBar value={search} onChange={setSearch} />
+      <div className="well library-filter-panel">
+        <div className="row">
+          <div className="col-sm-8">
+            <SearchBar value={search} onChange={setSearch} />
+          </div>
+          <div className="col-sm-4">
+            <p className="filter-summary">
+              <strong>{filtered.length}</strong> of <strong>{skills.length}</strong> skills shown
+            </p>
+          </div>
+        </div>
+        <p className="category-list" aria-label="Available categories">
+          {categories.map((category) => (
+            <span className="label label-info" key={category}>{category}</span>
+          ))}
+        </p>
+      </div>
 
       {filtered.length === 0 ? (
         <div className="well">
           <p><strong>No skills match your search.</strong></p>
-          <p>Try a different keyword or browse all skills.</p>
+          <p>Try a capability, service name, category, or canonical skill ID.</p>
         </div>
       ) : (
-        <>
-          <p className="text-muted">
-            Showing {filtered.length} of {skills.length} skills
-          </p>
-          <div className="row skill-list">
-            {filtered.map((skill) => (
-              <div className="col-sm-6 col-md-4" key={skill.slug}>
-                <SkillCard skill={skill} />
-              </div>
-            ))}
-          </div>
-        </>
+        <div className="row skill-list">
+          {filtered.map((skill) => (
+            <div className="col-sm-6 col-md-4" key={skill.slug}>
+              <SkillCard skill={skill} />
+            </div>
+          ))}
+        </div>
       )}
     </Layout>
   );
