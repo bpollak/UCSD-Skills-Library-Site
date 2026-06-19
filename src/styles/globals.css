@@ -18,7 +18,7 @@ img {
 }
 
 .library-kicker {
-  color: #747678;
+  color: #5d6066;
   font-size: 0.9em;
   font-weight: 700;
   letter-spacing: 0;
@@ -140,6 +140,7 @@ img {
   font-size: 1.25em;
   line-height: 1.25;
   margin-bottom: 8px;
+  margin-top: 0;
 }
 
 .skill-card-meta {
@@ -167,6 +168,19 @@ img {
 .skill-card-tools .label {
   display: inline-block;
   margin: 0 4px 4px 0;
+}
+
+.label-default,
+.badge {
+  background-color: #5d6066 !important;
+}
+
+.label-info {
+  background-color: #00629b !important;
+}
+
+.breadcrumb > .active {
+  color: #5d6066 !important;
 }
 
 .skill-panel .panel-footer {

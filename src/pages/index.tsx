@@ -21,7 +21,7 @@ export default function Home({ skills }: HomeProps) {
   const categoryCount = new Set(skills.map((skill) => getSkillPresentation(skill).category)).size;
 
   return (
-    <Layout>
+    <Layout pageTitle="Skills Library">
       <section className="main-section library-intro">
         <div className="row">
           <div className="col-md-8">

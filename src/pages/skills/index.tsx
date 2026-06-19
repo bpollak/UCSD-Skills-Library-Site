@@ -29,7 +29,7 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
   });
 
   return (
-    <Layout>
+    <Layout pageTitle="Skills Library">
       <ol className="breadcrumb breadcrumbs-list" aria-label="Breadcrumb">
         <li><Link href="/">Home</Link></li>
         <li className="active">Skills Library</li>

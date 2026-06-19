@@ -1,10 +1,12 @@
 import { ReactNode, useState, useEffect, useCallback } from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 interface LayoutProps {
   children: ReactNode;
   title?: string;
+  pageTitle?: string;
 }
 
 interface NavItem {
@@ -178,11 +180,12 @@ function SearchForm({ idPrefix }: { idPrefix: 'desktop' | 'mobile' }) {
   );
 }
 
-export default function Layout({ children, title }: LayoutProps) {
+export default function Layout({ children, title, pageTitle }: LayoutProps) {
   const router = useRouter();
   const [navOpen, setNavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const skillSectionActive = isLocalSkillPath(router.pathname);
+  const documentTitle = pageTitle || title || 'TritonAI Skills Library';
 
   useEffect(() => {
     const handleRouteChange = () => setNavOpen(false);
@@ -199,6 +202,14 @@ export default function Layout({ children, title }: LayoutProps) {
 
   return (
     <>
+      <Head>
+        <title>{`${documentTitle} | TritonAI Skills Library`}</title>
+        <meta
+          name="description"
+          content="A searchable library of reusable TritonAI skills for UC San Diego agents."
+        />
+      </Head>
+
       <header className="layout-header">
         <a className="sr-only" href="#main-content">Skip to main content</a>
         <div id="uc-emergency" />
@@ -222,29 +233,32 @@ export default function Layout({ children, title }: LayoutProps) {
         </section>
       </header>
 
-      <div
-        className={`navmenu navmenu-default navmenu-fixed-left offcanvas${navOpen ? ' in' : ''}`}
-        aria-hidden={!navOpen}
-      >
-        <ul className="nav navbar-nav navbar-right msearch">
-          <li>
-            <div className="search">
-              <button className="search-toggle btn-default" type="button" aria-hidden="true">
-                <span className="glyphicon glyphicon-search" aria-hidden="true" /> <span className="caret" aria-hidden="true" />
-              </button>
-              <div className="search-content search-is-open mobile-search-content">
-                <SearchForm idPrefix="mobile" />
+      {navOpen && (
+        <div
+          className="navmenu navmenu-default navmenu-fixed-left offcanvas in"
+          role="navigation"
+          aria-label="Mobile navigation"
+        >
+          <ul className="nav navbar-nav navbar-right msearch">
+            <li>
+              <div className="search">
+                <button className="search-toggle btn-default" type="button" aria-label="Search">
+                  <span className="glyphicon glyphicon-search" aria-hidden="true" /> <span className="caret" aria-hidden="true" />
+                </button>
+                <div className="search-content search-is-open mobile-search-content">
+                  <SearchForm idPrefix="mobile" />
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
 
-        <ul className="nav navmenu-nav">
-          {NAV_ITEMS.map((item) => (
-            <MobileNavItem item={item} key={item.href} onLocalClick={closeNav} />
-          ))}
-        </ul>
-      </div>
+          <ul className="nav navmenu-nav">
+            {NAV_ITEMS.map((item) => (
+              <MobileNavItem item={item} key={item.href} onLocalClick={closeNav} />
+            ))}
+          </ul>
+        </div>
+      )}
 
       {navOpen && <div className="navmenu-backdrop" onClick={closeNav} />}
 

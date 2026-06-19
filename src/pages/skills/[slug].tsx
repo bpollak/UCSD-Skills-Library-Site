@@ -1,6 +1,6 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Layout from '@/components/Layout';
 import { fetchSkillList, fetchSkillDetail, SkillDetail, SkillMeta } from '@/lib/skills';
@@ -9,6 +9,14 @@ import { getSkillPresentation } from '@/lib/skillPresentation';
 interface SkillPageProps {
   skill: SkillDetail | null;
 }
+
+const markdownComponents: Components = {
+  h1: 'h2',
+  h2: 'h3',
+  h3: 'h4',
+  h4: 'h5',
+  h5: 'h6',
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const skills = await fetchSkillList();
@@ -44,7 +52,7 @@ export default function SkillPage({ skill }: SkillPageProps) {
     : [];
 
   return (
-    <Layout>
+    <Layout pageTitle={presentation.title}>
       <ol className="breadcrumb breadcrumbs-list" aria-label="Breadcrumb">
         <li><Link href="/">Home</Link></li>
         <li><Link href="/skills">Skills Library</Link></li>
@@ -97,7 +105,7 @@ export default function SkillPage({ skill }: SkillPageProps) {
           <div className="alert alert-info">
             <strong>Original skill description:</strong> {skill.description}
           </div>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
             {skill.body}
           </ReactMarkdown>
         </section>

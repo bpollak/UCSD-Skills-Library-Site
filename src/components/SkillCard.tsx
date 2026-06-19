@@ -24,7 +24,7 @@ export default function SkillCard({ skill }: SkillCardProps) {
               <span className={`skill-card-icon glyphicon glyphicon-${presentation.icon}`} aria-hidden="true" />
             </div>
             <div className="media-body">
-              <h3 className="media-heading skill-card-title">{presentation.title}</h3>
+              <h2 className="media-heading skill-card-title">{presentation.title}</h2>
               <p>{presentation.summary}</p>
             </div>
           </div>
