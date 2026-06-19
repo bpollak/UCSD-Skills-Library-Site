@@ -153,7 +153,8 @@ export default function Layout({ children, title }: LayoutProps) {
                     aria-label="Toggle search"
                     aria-expanded={searchOpen}
                   >
-                    <span className="search-icon" aria-hidden="true" />
+                    <span className="glyphicon glyphicon-search" aria-hidden="true" />
+                    <span className="caret" aria-hidden="true" />
                   </button>
 
                   <div
