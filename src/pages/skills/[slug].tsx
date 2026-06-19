@@ -115,15 +115,6 @@ export default function SkillPage({ skill }: SkillPageProps) {
               ))}
             </div>
           </article>
-          <article className="main-content-nav" role="navigation" aria-label="Sidebar Nav">
-            <h2>On this page</h2>
-            <ul className="navbar-list">
-              <li><a href="#when-to-use">When to use</a></li>
-              <li><a href="#setup">Setup</a></li>
-              <li><a href="#workflow">Agent workflow</a></li>
-              <li><a href="#guardrails">Guardrails</a></li>
-            </ul>
-          </article>
         </section>
       </div>
 
