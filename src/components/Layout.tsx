@@ -26,8 +26,10 @@ export default function Layout({ children, title }: LayoutProps) {
 
   // Close offcanvas on route change
   useEffect(() => {
-    setNavOpen(false);
-  }, [router.pathname]);
+    const handleRouteChange = () => setNavOpen(false);
+    router.events.on('routeChangeStart', handleRouteChange);
+    return () => router.events.off('routeChangeStart', handleRouteChange);
+  }, [router.events]);
 
   // Prevent body scroll when offcanvas is open
   useEffect(() => {
@@ -44,8 +46,10 @@ export default function Layout({ children, title }: LayoutProps) {
   return (
     <>
       <header className="layout-header">
+        <a className="sr-only" href="#main-content">Skip to main content</a>
+        <div id="uc-emergency" />
         <section className="layout-title">
-          <div className="layout-container" style={{ overflow: 'hidden' }}>
+          <div className="layout-container container">
             <Link href="/" className="title-header title-header-large">
               TritonAI Skills Library
             </Link>
@@ -66,29 +70,37 @@ export default function Layout({ children, title }: LayoutProps) {
 
       {/* Offcanvas mobile navigation panel */}
       <div
-        className={`navmenu navmenu-default navmenu-fixed-left offcanvas${navOpen ? ' open' : ''}`}
+        className={`navmenu navmenu-default navmenu-fixed-left offcanvas${navOpen ? ' in' : ''}`}
         aria-hidden={!navOpen}
       >
-        {/* Search in offcanvas */}
         <ul className="nav navbar-nav navbar-right offcanvas-search">
           <li>
             <div className="search">
-              <form
-                action="https://act.ucsd.edu/cwp/tools/search-redir"
-                method="get"
-                id="cse-site-search"
-                onSubmit={(e) => e.preventDefault()}
-              >
-                <div className="input-group">
-                  <input
-                    placeholder="Search..."
-                    type="search"
-                    className="form-control search-term"
-                    name="search-term"
-                    aria-label="Search"
-                  />
-                </div>
-              </form>
+              <button className="search-toggle btn-default" type="button" aria-hidden="true">
+                <span className="glyphicon glyphicon-search" aria-hidden="true" /> <span className="caret" aria-hidden="true" />
+              </button>
+              <div className="search-content search-is-open mobile-search-content">
+                <form
+                  action="https://act.ucsd.edu/cwp/tools/search-redir"
+                  method="get"
+                  id="mobile-cse-site-search"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <select className="search-scope" name="search-scope" aria-label="Search scope">
+                    <option value="default_collection">All UCSD Sites</option>
+                    <option value="faculty-staff">Faculty/Staff</option>
+                  </select>
+                  <div className="input-group">
+                    <input
+                      placeholder="Search..."
+                      type="search"
+                      className="form-control search-term"
+                      name="search-term"
+                      aria-label="Search"
+                    />
+                  </div>
+                </form>
+              </div>
             </div>
           </li>
         </ul>
@@ -105,14 +117,14 @@ export default function Layout({ children, title }: LayoutProps) {
       </div>
 
       {/* Offcanvas overlay */}
-      {navOpen && <div className="navmenu-overlay" onClick={closeNav} />}
+      {navOpen && <div className="navmenu-backdrop" onClick={closeNav} />}
 
       <nav className="navbar navbar-default navbar-static-top">
-        <div className="layout-container">
+        <div className="container">
           <div className="navbar-header">
             <button
               type="button"
-              className={`navbar-toggle ${navOpen ? 'open' : 'collapsed'}`}
+              className="navbar-toggle"
               onClick={() => setNavOpen(!navOpen)}
               aria-label="Toggle navigation"
               aria-expanded={navOpen}
@@ -148,7 +160,8 @@ export default function Layout({ children, title }: LayoutProps) {
               <li>
                 <div className="search">
                   <button
-                    className="search-toggle btn-default"
+                    className={`search-toggle btn-default${searchOpen ? ' search-is-open' : ''}`}
+                    type="button"
                     onClick={() => setSearchOpen(!searchOpen)}
                     aria-label="Toggle search"
                     aria-expanded={searchOpen}
@@ -158,12 +171,13 @@ export default function Layout({ children, title }: LayoutProps) {
                   </button>
 
                   <div
-                    className={`search-content${searchOpen ? ' open' : ''}`}
-                    id="desktop-search"
+                    className={`search-content${searchOpen ? ' search-is-open' : ''}`}
+                    id="search"
                   >
                     <form
                       action="https://act.ucsd.edu/cwp/tools/search-redir"
                       method="get"
+                      id="desktop-cse-site-search"
                       onSubmit={(e) => e.preventDefault()}
                     >
                       <select className="search-scope" name="search-scope" aria-label="Search scope">
@@ -188,20 +202,20 @@ export default function Layout({ children, title }: LayoutProps) {
         </div>
       </nav>
 
-      <main className="layout-main" id="main-content">
-        <div className="layout-container" style={{ padding: '32px 0 48px' }}>
+      <main className="layout-main" id="main-content" role="main">
+        <div className="container site-main-container">
           {title && (
-            <h1 className="ucsd-h1">{title}</h1>
+            <h1 className="page-header">{title}</h1>
           )}
           {children}
         </div>
       </main>
 
       <footer className="footer">
-        <div className="layout-container">
-          <div style={{ overflow: 'hidden' }}>
-            <div style={{ float: 'left' }}>
-              <p style={{ margin: '0 0 10px', lineHeight: 1.5 }}>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-8">
+              <p>
                 <span>UC San Diego 9500 Gilman Dr. La Jolla, CA 92093 (858) 534-2230</span>
                 <br />
                 <span>Copyright &copy; {new Date().getFullYear()} Regents of the University of California. All rights reserved.</span>
@@ -229,7 +243,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 </li>
               </ul>
             </div>
-            <div style={{ float: 'right' }}>
+            <div className="col-sm-4">
               <a href="https://ucsd.edu" target="_blank" rel="noopener noreferrer">
                 <img
                   className="footer-logo"

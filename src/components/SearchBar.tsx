@@ -5,14 +5,15 @@ interface SearchBarProps {
 
 export default function SearchBar({ value, onChange }: SearchBarProps) {
   return (
-    <div style={{ marginBottom: '24px' }}>
+    <div className="form-group skill-search">
+      <label className="sr-only" htmlFor="skill-search">Search skills</label>
       <input
+        id="skill-search"
         type="search"
-        className="search-input"
+        className="form-control"
         placeholder="Search skills by name, description, or keywords..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        aria-label="Search skills"
       />
     </div>
   );

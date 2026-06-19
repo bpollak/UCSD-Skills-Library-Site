@@ -16,76 +16,65 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 };
 
 export default function Home({ skills }: HomeProps) {
+  const toolCount = new Set(skills.flatMap((s) => s.allowedTools ? s.allowedTools.split(', ') : [])).size;
+
   return (
     <Layout>
-      {/* Hero */}
-      <section style={{ padding: '40px 0 32px' }}>
-        <h1 className="ucsd-h1" style={{ borderBottom: 'none', paddingBottom: 0, marginBottom: '8px' }}>
-          TritonAI Skills Library
-        </h1>
-        <p className="ucsd-lead" style={{ marginBottom: '32px', maxWidth: '800px' }}>
+      <section className="main-section">
+        <h1 className="page-header">TritonAI Skills Library</h1>
+        <p className="lead">
           A growing collection of reusable skills for the TritonAI agent ecosystem at UC San Diego.
           Browse, learn, and integrate AI-powered capabilities into your workflows.
         </p>
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <Link href="/skills" className="btn-ucsd">
+        <p className="site-actions">
+          <Link href="/skills" className="btn btn-primary btn-lg">
             Browse All Skills
           </Link>
           <a
             href="https://github.com/bpollak/UCSD-Skills-Library"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-ucsd-secondary"
+            className="btn btn-default btn-lg"
           >
             View on GitHub
           </a>
+        </p>
+      </section>
+
+      <section className="row skill-summary" aria-label="Skills summary">
+        <div className="col-sm-4">
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <strong>{skills.length}</strong>
+              <span>Available Skills</span>
+            </div>
+          </div>
+        </div>
+        <div className="col-sm-4">
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <strong>{toolCount}</strong>
+              <span>Tool Integrations</span>
+            </div>
+          </div>
+        </div>
+        <div className="col-sm-4">
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <span className="glyphicon glyphicon-ok" aria-hidden="true" />
+              <span>Open Source</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section
-        style={{
-          background: 'var(--accent)',
-          borderRadius: '6px',
-          padding: '24px 32px',
-          marginBottom: '40px',
-          display: 'flex',
-          gap: '48px',
-          flexWrap: 'wrap',
-        }}
-      >
-        <div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: 'var(--ucsd-blue)', fontFamily: 'var(--font-heading)' }}>
-            {skills.length}
-          </div>
-          <div style={{ fontSize: '14px', color: 'var(--muted-foreground)' }}>Available Skills</div>
-        </div>
-        <div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: 'var(--ucsd-blue)', fontFamily: 'var(--font-heading)' }}>
-            {new Set(skills.flatMap((s) => s.allowedTools ? s.allowedTools.split(', ') : [])).size}
-          </div>
-          <div style={{ fontSize: '14px', color: 'var(--muted-foreground)' }}>Tool Integrations</div>
-        </div>
-        <div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: 'var(--ucsd-blue)', fontFamily: 'var(--font-heading)' }}>
-            {skills.reduce((max, s) => Math.max(max, s.description.length), 0) > 0 ? '✓' : '—'}
-          </div>
-          <div style={{ fontSize: '14px', color: 'var(--muted-foreground)' }}>Open Source</div>
-        </div>
-      </section>
-
-      {/* Featured Skills */}
-      <section>
-        <h2 className="ucsd-h2" style={{ marginBottom: '24px' }}>Available Skills</h2>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-            gap: '20px',
-          }}
-        >
+      <section className="main-section">
+        <h2>Available Skills</h2>
+        <div className="row skill-list">
           {skills.map((skill) => (
-            <SkillCard key={skill.slug} skill={skill} />
+            <div className="col-sm-6 col-md-4" key={skill.slug}>
+              <SkillCard skill={skill} />
+            </div>
           ))}
         </div>
       </section>

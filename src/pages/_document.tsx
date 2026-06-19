@@ -5,19 +5,17 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap"
+            href="https://cdn.ucsd.edu/cms/decorator-5/styles/bootstrap.min.css"
             rel="stylesheet"
           />
           <link
-            href="https://cdn.ucsd.edu/cms/decorator-5/styles/teko.css"
+            href="https://cdn.ucsd.edu/cms/decorator-5/styles/base.min.css"
             rel="stylesheet"
           />
           <link
             rel="icon"
-            href="https://cdn.ucsd.edu/developer/decorator/5.0.2/favicon.ico"
+            href="https://www.ucsd.edu/favicon.ico"
           />
         </Head>
         <body>
