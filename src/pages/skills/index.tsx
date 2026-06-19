@@ -36,9 +36,9 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
       </ol>
       <h1 className="page-header">Skills Library</h1>
       <p className="lead">
-        Browse reusable TritonAI skills by what they help an agent do. Skill IDs are
-        still shown for installation and reference, but the library is organized around
-        friendly titles and practical use cases.
+        Browse reusable TritonAI skills and optional agent workspace helpers by what
+        they help an agent do. Skill IDs are still shown for installation and
+        reference, with friendly titles and practical use cases.
       </p>
 
       <div className="well library-filter-panel">

@@ -16,6 +16,10 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 };
 
 export default function Home({ skills }: HomeProps) {
+  const featuredSkills = skills.filter(
+    (skill) => !['ucsd-memory', 'ucsd-memory-create'].includes(skill.slug)
+  );
+
   return (
     <Layout pageTitle="Skills Library">
       <section className="main-section library-intro">
@@ -45,8 +49,9 @@ export default function Home({ skills }: HomeProps) {
             <div className="well library-guidance">
               <h2>Find the right skill</h2>
               <p>
-                These skills plug into the TritonAI harness to extend what agents can do
-                across campus workflows.
+                Most skills extend TritonAI agents for campus workflows. Optional
+                workspace helpers are included in the full library when they may be
+                useful for local agent setup.
               </p>
             </div>
           </div>
@@ -59,7 +64,7 @@ export default function Home({ skills }: HomeProps) {
           <Link href="/skills">View full library</Link>
         </div>
         <div className="row skill-list">
-          {skills.map((skill) => (
+          {featuredSkills.map((skill) => (
             <div className="col-sm-6 col-md-4" key={skill.slug}>
               <SkillCard skill={skill} />
             </div>
