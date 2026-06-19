@@ -36,9 +36,9 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
       </ol>
       <h1 className="page-header">Skills Library</h1>
       <p className="lead">
-        Browse reusable TritonAI skills by what they help an agent do. Canonical skill IDs are
-        still shown for installation and reference, but the library is organized around plain
-        language titles and use cases.
+        Browse reusable TritonAI skills by what they help an agent do. Skill IDs are
+        still shown for installation and reference, but the library is organized around
+        friendly titles and practical use cases.
       </p>
 
       <div className="well library-filter-panel">
@@ -62,7 +62,7 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
       {filtered.length === 0 ? (
         <div className="well">
           <p><strong>No skills match your search.</strong></p>
-          <p>Try a capability, service name, category, or canonical skill ID.</p>
+          <p>Try a capability, service name, category, or skill ID.</p>
         </div>
       ) : (
         <div className="row skill-list">

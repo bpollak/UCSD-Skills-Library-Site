@@ -49,7 +49,7 @@ export default function Home({ skills }: HomeProps) {
             <div className="well library-guidance">
               <h2>Find the right skill</h2>
               <p>
-                Start with the plain-language title, confirm the canonical skill ID, then open
+                Start with the friendly title, confirm the skill ID, then open
                 the guide for setup notes and agent workflow details.
               </p>
             </div>

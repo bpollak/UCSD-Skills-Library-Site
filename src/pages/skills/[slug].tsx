@@ -69,7 +69,7 @@ export default function SkillPage({ skill }: SkillPageProps) {
         <div className="panel-body">
           <div className="row">
             <div className="col-sm-4">
-              <strong>Canonical Skill ID</strong>
+              <strong>Skill ID</strong>
               <p><code>{skill.slug}</code></p>
             </div>
             <div className="col-sm-4">
