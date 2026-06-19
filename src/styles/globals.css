@@ -157,11 +157,36 @@ img {
 }
 
 .skill-panel .panel-heading .label {
-  background-color: var(--skill-accent) !important;
   color: var(--skill-accent-label-text);
   display: inline-block;
+  margin: 0 6px 6px 0;
   padding: 0.45em 0.7em;
   width: auto;
+}
+
+.skill-panel .panel-heading .label-primary {
+  background-color: var(--skill-accent) !important;
+}
+
+.skill-status-label {
+  background-color: #f4f0e6 !important;
+  border: 1px solid #c69214;
+  color: #182b49 !important;
+  font-weight: 700;
+}
+
+.skill-status-label .glyphicon {
+  color: #744f00;
+  font-size: 0.9em;
+}
+
+.skill-status-limited {
+  background-color: #f8e8ee !important;
+  border-color: #8f1d3a;
+}
+
+.skill-status-limited .glyphicon {
+  color: #8f1d3a;
 }
 
 .skill-panel .panel-body {
@@ -273,6 +298,37 @@ img {
 
 .skill-detail-intro {
   margin-bottom: 18px;
+}
+
+.skill-detail-kicker {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.skill-detail-kicker .library-kicker {
+  margin-bottom: 0;
+}
+
+.skill-status-note {
+  border-left: 4px solid #c69214;
+  color: #333;
+  margin-top: 12px;
+  padding: 8px 12px;
+}
+
+.skill-status-note .glyphicon {
+  color: #744f00;
+}
+
+.skill-status-note-limited {
+  border-left-color: #8f1d3a;
+}
+
+.skill-status-note-limited .glyphicon {
+  color: #8f1d3a;
 }
 
 .skill-tool-list {

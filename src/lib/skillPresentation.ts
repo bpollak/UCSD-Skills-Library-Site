@@ -10,6 +10,13 @@ export interface SkillPresentation {
   tags: string[];
 }
 
+export interface SkillStatusIndicator {
+  label: string;
+  tone: 'experimental' | 'limited';
+  icon: string;
+  description: string;
+}
+
 const PRESENTATION: Record<string, SkillPresentation> = {
   'tritonai-feedback': {
     title: 'TritonAI Feedback',
@@ -92,8 +99,31 @@ export function getSkillPresentation(skill: SkillMeta): SkillPresentation {
   };
 }
 
+export function getSkillStatusIndicator(skill: SkillMeta): SkillStatusIndicator | null {
+  if (skill.catalog?.tier === 'experimental') {
+    return {
+      label: 'Experimental',
+      tone: 'experimental',
+      icon: 'warning-sign',
+      description: 'This skill is still being reviewed and may change.',
+    };
+  }
+
+  if (skill.catalog?.publicationStatus && skill.catalog.publicationStatus !== 'published') {
+    return {
+      label: 'Limited Access',
+      tone: 'limited',
+      icon: 'lock',
+      description: 'This skill is available in the library but is not broadly published yet.',
+    };
+  }
+
+  return null;
+}
+
 export function getSkillSearchText(skill: SkillMeta): string {
   const presentation = getSkillPresentation(skill);
+  const statusIndicator = getSkillStatusIndicator(skill);
   return [
     skill.slug,
     skill.name,
@@ -110,6 +140,8 @@ export function getSkillSearchText(skill: SkillMeta): string {
     skill.catalog?.publicationStatus,
     skill.catalog?.tier,
     skill.catalog?.owner,
+    statusIndicator?.label,
+    statusIndicator?.description,
     ...presentation.tags,
   ]
     .filter(Boolean)

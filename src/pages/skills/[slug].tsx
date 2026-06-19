@@ -4,7 +4,7 @@ import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Layout from '@/components/Layout';
 import { fetchSkillList, fetchSkillDetail, SkillDetail, SkillMeta } from '@/lib/skills';
-import { getSkillPresentation } from '@/lib/skillPresentation';
+import { getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
 
 interface SkillPageProps {
   skill: SkillDetail | null;
@@ -51,6 +51,7 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
   }
 
   const presentation = getSkillPresentation(skill);
+  const statusIndicator = getSkillStatusIndicator(skill);
   const sectionSkills = [...skills].sort((a, b) => (
     getSkillPresentation(a).title.localeCompare(getSkillPresentation(b).title)
   ));
@@ -67,9 +68,26 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
       </ol>
 
       <section className="skill-detail-intro">
-        <p className="text-uppercase library-kicker">{presentation.category}</p>
+        <p className="skill-detail-kicker">
+          <span className="text-uppercase library-kicker">{presentation.category}</span>
+          {statusIndicator && (
+            <span
+              className={`label skill-status-label skill-status-${statusIndicator.tone}`}
+              title={statusIndicator.description}
+            >
+              <span className={`glyphicon glyphicon-${statusIndicator.icon}`} aria-hidden="true" />{' '}
+              {statusIndicator.label}
+            </span>
+          )}
+        </p>
         <h1 className="page-header">{presentation.title}</h1>
         <p className="lead">{presentation.summary}</p>
+        {statusIndicator && (
+          <p className={`skill-status-note skill-status-note-${statusIndicator.tone}`}>
+            <span className={`glyphicon glyphicon-${statusIndicator.icon}`} aria-hidden="true" />{' '}
+            {statusIndicator.description}
+          </p>
+        )}
       </section>
 
       <div className="panel panel-default skill-meta-panel">

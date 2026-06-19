@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SkillMeta } from '@/lib/skills';
-import { getSkillPresentation } from '@/lib/skillPresentation';
+import { getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
 
 interface SkillCardProps {
   skill: SkillMeta;
@@ -8,6 +8,7 @@ interface SkillCardProps {
 
 export default function SkillCard({ skill }: SkillCardProps) {
   const presentation = getSkillPresentation(skill);
+  const statusIndicator = getSkillStatusIndicator(skill);
   const tools = skill.allowedTools
     ? skill.allowedTools.split(', ').filter(Boolean)
     : [];
@@ -17,6 +18,15 @@ export default function SkillCard({ skill }: SkillCardProps) {
       <div className={`panel panel-default skill-panel skill-accent-${presentation.accent}`}>
         <div className="panel-heading">
           <span className="label label-primary">{presentation.category}</span>
+          {statusIndicator && (
+            <span
+              className={`label skill-status-label skill-status-${statusIndicator.tone}`}
+              title={statusIndicator.description}
+            >
+              <span className={`glyphicon glyphicon-${statusIndicator.icon}`} aria-hidden="true" />{' '}
+              {statusIndicator.label}
+            </span>
+          )}
         </div>
         <div className="panel-body">
           <div className="media skill-card-media">
