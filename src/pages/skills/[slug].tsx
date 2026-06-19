@@ -8,6 +8,7 @@ import { getSkillPresentation } from '@/lib/skillPresentation';
 
 interface SkillPageProps {
   skill: SkillDetail | null;
+  skills: SkillMeta[];
 }
 
 const markdownComponents: Components = {
@@ -28,13 +29,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<SkillPageProps> = async ({ params }) => {
   const slug = params?.slug as string;
-  const skill = await fetchSkillDetail(slug);
+  const [skill, skills] = await Promise.all([
+    fetchSkillDetail(slug),
+    fetchSkillList(),
+  ]);
   return {
-    props: { skill },
+    props: { skill, skills },
   };
 };
 
-export default function SkillPage({ skill }: SkillPageProps) {
+export default function SkillPage({ skill, skills }: SkillPageProps) {
   if (!skill) {
     return (
       <Layout title="Skill Not Found">
@@ -47,6 +51,9 @@ export default function SkillPage({ skill }: SkillPageProps) {
   }
 
   const presentation = getSkillPresentation(skill);
+  const sectionSkills = [...skills].sort((a, b) => (
+    getSkillPresentation(a).title.localeCompare(getSkillPresentation(b).title)
+  ));
   const tools = skill.allowedTools
     ? skill.allowedTools.split(', ').filter(Boolean)
     : [];
@@ -101,7 +108,40 @@ export default function SkillPage({ skill }: SkillPageProps) {
       </div>
 
       <div className="row skill-detail-layout">
-        <section className="main-section col-md-12 skill-detail" aria-label="Main Content">
+        <aside className="sidebar-section col-md-3">
+          <nav className="panel panel-default section-nav-panel" aria-label="Skills Library">
+            <div className="panel-heading">
+              <h2 className="panel-title">Skills Library</h2>
+            </div>
+            <div className="list-group">
+              <Link href="/skills" className="list-group-item">
+                All skills
+              </Link>
+              {sectionSkills.map((sectionSkill) => {
+                const sectionPresentation = getSkillPresentation(sectionSkill);
+                if (sectionSkill.slug === skill.slug) {
+                  return (
+                    <span className="list-group-item active" aria-current="page" key={sectionSkill.slug}>
+                      {sectionPresentation.title}
+                    </span>
+                  );
+                }
+
+                return (
+                  <Link
+                    href={`/skills/${sectionSkill.slug}`}
+                    className="list-group-item"
+                    key={sectionSkill.slug}
+                  >
+                    {sectionPresentation.title}
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
+        </aside>
+
+        <section className="main-section col-md-9 skill-detail" aria-label="Main Content">
           <div className="alert alert-info">
             <strong>Original skill description:</strong> {skill.description}
           </div>
