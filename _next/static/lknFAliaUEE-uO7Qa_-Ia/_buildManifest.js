@@ -1,6 +1,6 @@
 self.__BUILD_MANIFEST = {
   "/": [
-    "static/chunks/20-_i8h20woph.js"
+    "static/chunks/2ch3ev-4og79f.js"
   ],
   "/404": [
     "static/chunks/2wacn6pv_vwau.js"
@@ -9,7 +9,7 @@ self.__BUILD_MANIFEST = {
     "static/chunks/3chq9gl58gyvb.js"
   ],
   "/skills": [
-    "static/chunks/337-lfg2d5sp4.js"
+    "static/chunks/1zdcbfmunmh9l.js"
   ],
   "/skills/[slug]": [
     "static/chunks/24s2pkiuv8ebo.js"
