@@ -37,8 +37,8 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     tags: ['Calendar', 'Microsoft 365', 'Scheduling'],
   },
   'ucsd-branding': {
-    title: 'UC San Diego Branding and Decorator V5',
-    summary: 'Apply current UC San Diego Decorator V5 page chrome, components, and visual patterns from the official developer site.',
+    title: 'UCSD TritonAI Branding and Decorator V5',
+    summary: 'Match live TritonAI page styling first, using UC San Diego Decorator V5 as the underlying component and page-shell system.',
     category: 'Design System',
     audience: 'Web and content builders',
     icon: 'picture',
