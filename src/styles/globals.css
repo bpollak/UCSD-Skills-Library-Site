@@ -370,6 +370,124 @@ img {
   min-width: 0;
 }
 
+.skill-description {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #ddd;
+}
+
+.skill-body-content {
+  color: #333;
+  font-size: 1em;
+  line-height: 1.7;
+}
+
+.skill-body-content h1:first-child {
+  margin-top: 0;
+}
+
+.skill-body-content h1 {
+  border-bottom: 1px solid #eee;
+  font-size: 1.6em;
+  margin-top: 28px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+}
+
+.skill-body-content h2 {
+  font-size: 1.3em;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.skill-body-content h3 {
+  font-size: 1.1em;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.skill-body-content p {
+  margin-bottom: 12px;
+}
+
+.skill-body-content ul,
+.skill-body-content ol {
+  margin-bottom: 12px;
+  padding-left: 24px;
+}
+
+.skill-body-content li {
+  margin-bottom: 4px;
+}
+
+.skill-body-content code {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  font-size: 0.88em;
+  padding: 2px 5px;
+  word-break: break-word;
+}
+
+.skill-body-content pre {
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.88em;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding: 12px 16px;
+}
+
+.skill-body-content pre code {
+  background: none;
+  border: none;
+  font-size: inherit;
+  padding: 0;
+}
+
+.skill-body-content table {
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.skill-body-content th,
+.skill-body-content td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.skill-body-content th {
+  background: #f5f5f5;
+  font-weight: 700;
+}
+
+.skill-body-content blockquote {
+  border-left: 4px solid #c69214;
+  color: #555;
+  margin: 16px 0;
+  padding: 4px 16px;
+}
+
+.skill-body-content hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 24px 0;
+}
+
+.skill-body-footer {
+  margin-top: 16px;
+  text-align: right;
+}
+
+.skill-body-footer .btn .glyphicon {
+  margin-right: 4px;
+}
+
 .skill-detail h1,
 .skill-detail h2,
 .skill-detail h3 {

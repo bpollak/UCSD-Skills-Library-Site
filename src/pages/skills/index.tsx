@@ -68,11 +68,7 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
             </p>
           </div>
         </div>
-        <p className="category-list" aria-label="Available categories">
-          {categories.map((category) => (
-            <span className="label label-info" key={category}>{category}</span>
-          ))}
-        </p>
+
       </div>
 
       {filtered.length === 0 ? (

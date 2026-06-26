@@ -1,8 +1,12 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import Layout from '@/components/Layout';
 import { fetchSkillList, fetchSkillDetail, SkillDetail, SkillMeta } from '@/lib/skills';
 import { getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
+
+const TRITONAI_URL = 'https://tritonai.ucsd.edu';
 
 interface SkillPageProps {
   skill: SkillDetail | null;
@@ -40,33 +44,32 @@ function SidebarNav({
   );
 
   return (
-    <section className="col-xs-12 col-md-3 sidebar-section" aria-label="Skills Library" role="complementary">
+    <section className="col-xs-12 col-md-3 sidebar-section" aria-label="Sidebar" role="complementary">
       <article className="main-content-nav" aria-label="Skills Library Nav" role="navigation">
-        <h2><a href="/skills">Skills Library</a></h2>
+        <h2><a href={TRITONAI_URL}>TritonAI</a></h2>
         <ul>
-          <li>
-            <a href="/skills">All skills</a>
-          </li>
-          {sectionSkills.map((sectionSkill) => {
-            const sectionPresentation = getSkillPresentation(sectionSkill);
-            const isActive = sectionSkill.slug === currentSlug;
-            if (isActive) {
-              return (
-                <li className="active" key={sectionSkill.slug}>
-                  <a href={`/skills/${sectionSkill.slug}`} aria-current="page">
-                    {sectionPresentation.title}
-                  </a>
-                </li>
-              );
-            }
-            return (
-              <li key={sectionSkill.slug}>
-                <a href={`/skills/${sectionSkill.slug}`}>
-                  {sectionPresentation.title}
-                </a>
+          <li className="active">
+            <a href="/skills">Skills Library</a>
+            <ul>
+              <li>
+                <a href="/skills">All skills</a>
               </li>
-            );
-          })}
+              {sectionSkills.map((sectionSkill) => {
+                const sectionPresentation = getSkillPresentation(sectionSkill);
+                const isActive = sectionSkill.slug === currentSlug;
+                return (
+                  <li className={isActive ? 'active' : ''} key={sectionSkill.slug}>
+                    <a
+                      href={`/skills/${sectionSkill.slug}`}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {sectionPresentation.title}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </li>
         </ul>
       </article>
     </section>
@@ -122,6 +125,24 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
                 {statusIndicator.description}
               </p>
             )}
+          </section>
+
+          <section className="skill-description">
+            <article className="skill-body-content">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {skill.body}
+              </ReactMarkdown>
+            </article>
+            <p className="skill-body-footer">
+              <a
+                href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-sm btn-default"
+              >
+                <span className="glyphicon glyphicon-new-window" aria-hidden="true" /> View on GitHub
+              </a>
+            </p>
           </section>
 
           <div className="panel panel-default skill-meta-panel">
@@ -191,20 +212,7 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
             </div>
           </div>
 
-          <section className="skill-description">
-            <div className="alert alert-info">
-              <strong>Description:</strong> {skill.description}
-            </div>
-            <p>
-              <a
-                href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View the full skill specification, reference files, and implementation guide on GitHub
-              </a>
-            </p>
-          </section>
+
         </div>
       </div>
     </Layout>
