@@ -19,68 +19,67 @@ interface SkillNavItem {
 const PUBLIC_BODY_OVERRIDES: Record<string, string> = {
   'ucsd-dsmlp-deploy': `# UCSD DSMLP Deployment Packaging
 
-Use this skill to help prepare approved applications for TritonAI platform review and deployment packaging.
+Use this skill to prepare approved applications for TritonAI platform review and deployment packaging.
 
-## Public overview
+## What it does
 
-- Check that an application is structured for platform review.
-- Confirm that deployment packaging has the expected high-level artifacts.
-- Prepare a handoff summary for the platform team.
-- Keep deployment-specific values, credentials, infrastructure details, and environment configuration out of public documentation.
+- Checks that an application is structured correctly for platform review
+- Confirms deployment packaging has the expected artifacts
+- Prepares a handoff summary for the platform team
 
-## Public guardrails
+## How to use it
 
-- Do not publish secrets, tokens, credentials, private environment files, internal cluster details, or non-public deployment values.
-- Do not include production data, restricted data, or private platform configuration in examples.
-- Use approved internal channels for deployment-specific instructions and handoff details.
+1. **Enable the skill** in the TritonAI Harness using the Skill ID: \`ucsd-dsmlp-deploy\`
+2. **Tell your agent** you need to prepare an application for platform review
+3. **Follow the agent's guidance** to structure your application and prepare the handoff
 `,
   'ucsd-memory': `# Use Local Agent Memory
 
-Use this skill to work with an approved local memory workspace for agent context.
+Use this skill to give an agent access to a local Markdown memory vault for storing and recalling context across sessions.
 
-## Public overview
+## What it does
 
-- Search and summarize previously stored context.
-- Add, correct, or remove memory notes when the user explicitly asks.
-- Cite where remembered information came from when using it in an answer.
+- Searches and summarizes previously stored information
+- Adds, updates, or removes memory notes on request
+- Cites the source of remembered information when using it in answers
 
-## Public guardrails
+## How to use it
 
-- Do not store API keys, passwords, tokens, private keys, session cookies, or unrelated sensitive data.
-- Do not publish local vault paths, private note contents, sync logs, or personal workspace structure.
-- Treat memory as user-controlled context, not as an authority for sensitive or regulated records.
+1. **Enable the skill** in the TritonAI Harness using the Skill ID: \`ucsd-memory\`
+2. **Tell your agent** to remember something for later, or ask it what it knows about a topic
+3. Memory is stored locally in a Markdown vault on your machine
 `,
   'ucsd-memory-create': `# Set Up Local Agent Memory
 
-Use this skill to create an approved local memory workspace pattern for agent context.
+Use this skill to create a local Markdown memory vault for agent context with starter notes, provenance rules, and sync job definitions.
 
-## Public overview
+## What it does
 
-- Establish a local note structure for user-controlled context.
-- Define provenance and cleanup expectations.
-- Support recurring maintenance patterns where they are approved.
+- Establishes a local note structure for storing agent context across sessions
+- Sets up provenance tracking so you know where information came from
+- Configures recurring maintenance patterns to keep your vault organized
 
-## Public guardrails
+## How to use it
 
-- Do not publish private workspace paths, personal note contents, generated logs, or sync configuration.
-- Do not store API keys, passwords, tokens, private keys, session cookies, or unrelated sensitive data.
-- Keep setup automation and schedule details in approved internal documentation.
+1. **Enable the skill** in the TritonAI Harness using the Skill ID: \`ucsd-memory-create\`
+2. **Tell your agent** you want to set up a local memory workspace
+3. **Follow the agent's guidance** to initialize your vault and configure sync
 `,
   'ucsd-msgraph-calendar': `# Microsoft 365 Calendar Lookup
 
-Use this skill to help an approved agent understand calendar context through authorized Microsoft 365 access.
+Use this skill to give an approved agent the ability to check UC San Diego Microsoft 365 calendars for meetings, availability, and schedule context.
 
-## Public overview
+## What it does
 
-- Answer schedule, availability, and agenda questions after the user has approved access.
-- Use least-privilege permissions appropriate for calendar lookup.
-- Keep authentication and calendar data handling private to the approved user environment.
+- Answers questions about today's schedule, specific dates, or weekly meetings
+- Checks availability and finds open time slots
+- Works across sessions with cached authentication after one-time setup
 
-## Public guardrails
+## How to use it
 
-- Do not publish app registration values, tokens, cache files, tenant details, or local configuration paths.
-- Do not expose meeting details, attendee data, or calendar metadata on public pages.
-- Use approved internal setup documentation for authentication and configuration steps.
+1. **Enable the skill** in the TritonAI Harness using the Skill ID: \`ucsd-msgraph-calendar\`
+2. **Authenticate** by following the one-time Microsoft 365 device code login your agent will walk you through
+3. **Ask your agent** about your calendar — "What meetings do I have today?" or "Am I free at 2pm?"
 `,
 };
 
