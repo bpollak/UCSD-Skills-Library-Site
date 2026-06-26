@@ -42,12 +42,10 @@ function SidebarNav({
   );
 
   return (
-    <aside className="sidebar-section">
-      <nav className="sidebar-nav" aria-label="Sidebar Nav">
-        <h2 className="sidebar-nav-heading">
-          <a href={TRITONAI_URL}>TritonAI</a>
-        </h2>
-        <ul className="nav nav-pills nav-stacked sidebar-nav-list">
+    <section className="col-xs-12 col-md-3 sidebar-section" aria-label="Sidebar" role="complementary">
+      <article className="main-content-nav" aria-label="Sidebar Nav" role="navigation">
+        <h2><a href={TRITONAI_URL}>TritonAI</a></h2>
+        <ul>
           <li>
             <a href={`${TRITONAI_URL}/about/index.html`}>About</a>
           </li>
@@ -64,11 +62,9 @@ function SidebarNav({
             <a href={`${TRITONAI_URL}/tools/index.html`}>AI Tools</a>
           </li>
           <li className="active">
-            <a href="/skills">
-              Skills Library
-            </a>
-            <ul className="nav nav-pills nav-stacked sidebar-nav-sublist">
-              <li key="all">
+            <a href="/skills">Skills Library</a>
+            <ul>
+              <li>
                 <a href="/skills">All skills</a>
               </li>
               {sectionSkills.map((sectionSkill) => {
@@ -94,8 +90,8 @@ function SidebarNav({
             </ul>
           </li>
         </ul>
-      </nav>
-    </aside>
+      </article>
+    </section>
   );
 }
 

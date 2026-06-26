@@ -366,23 +366,6 @@ img {
   padding-top: 12px;
 }
 
-.section-nav-panel .list-group {
-  margin-bottom: 0;
-}
-
-.section-nav-panel .list-group-item {
-  color: #333;
-}
-
-.section-nav-panel .list-group-item.active,
-.section-nav-panel .list-group-item.active:focus,
-.section-nav-panel .list-group-item.active:hover {
-  background-color: #f4f0e6;
-  border-color: #ddd;
-  color: #182b49;
-  font-weight: 700;
-}
-
 .skill-detail {
   min-width: 0;
 }
@@ -477,19 +460,6 @@ body.offcanvas-open {
   display: block;
   position: relative;
   width: 100%;
-}
-
-@media only screen and (max-width: 991px) {
-  .skill-detail-layout .skill-detail,
-  .skill-detail-layout .sidebar-section {
-    clear: both;
-    float: none !important;
-    width: 100%;
-  }
-
-  .skill-detail-layout .sidebar-section {
-    margin-bottom: 24px;
-  }
 }
 
 @media only screen and (max-width: 767px) {
