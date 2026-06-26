@@ -45,6 +45,15 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     accent: 'gold',
     tags: ['Branding', 'Decorator V5', 'Web Design'],
   },
+  'ucsd-cms': {
+    title: 'UCSD CMS Authoring',
+    summary: 'Navigate UC San Diego CMS authoring workflows using official Blink training as the source of truth.',
+    category: 'Brand & Communications',
+    audience: 'Campus web authors',
+    icon: 'edit',
+    accent: 'teal',
+    tags: ['CMS', 'Blink', 'Authoring'],
+  },
   'ucsd-data-classification': {
     title: 'UCSD Data Classification and Handling',
     summary: 'Classify UC San Diego data under UC IS-3 Protection Levels and apply handling controls for storage, logging, access, and vendors.',
@@ -53,6 +62,15 @@ const PRESENTATION: Record<string, SkillPresentation> = {
     icon: 'lock',
     accent: 'burgundy',
     tags: ['IS-3', 'Security', 'Data Handling'],
+  },
+  'ucsd-dsmlp-deploy': {
+    title: 'UCSD DSMLP Deployment Packaging',
+    summary: 'Prepare approved applications for TritonAI platform review and deployment packaging.',
+    category: 'Engineering Support',
+    audience: 'Platform handoff workflows',
+    icon: 'cloud-upload',
+    accent: 'blue',
+    tags: ['Deployment', 'Platform Review', 'Packaging'],
   },
   'ucsd-memory': {
     title: 'Use Local Agent Memory',
@@ -99,6 +117,25 @@ export function getSkillPresentation(skill: SkillMeta): SkillPresentation {
   };
 }
 
+export function getPublicSkillMeta(skill: SkillMeta): SkillMeta {
+  const presentation = getSkillPresentation(skill);
+  return {
+    slug: skill.slug,
+    name: presentation.title,
+    description: presentation.summary,
+    catalog: {
+      title: presentation.title,
+      description: presentation.summary,
+      category: presentation.category,
+      status: skill.catalog?.status,
+      publicationStatus: skill.catalog?.publicationStatus,
+      tier: skill.catalog?.tier,
+      owner: skill.catalog?.owner,
+      updated: skill.catalog?.updated,
+    },
+  };
+}
+
 export function getSkillStatusIndicator(skill: SkillMeta): SkillStatusIndicator | null {
   if (skill.catalog?.tier === 'experimental') {
     return {
@@ -128,7 +165,6 @@ export function getSkillSearchText(skill: SkillMeta): string {
     skill.slug,
     skill.name,
     skill.description,
-    skill.allowedTools,
     presentation.title,
     presentation.summary,
     presentation.category,

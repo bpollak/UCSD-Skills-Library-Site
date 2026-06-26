@@ -3,13 +3,14 @@ import Link from 'next/link';
 import Layout from '@/components/Layout';
 import SkillCard from '@/components/SkillCard';
 import { fetchSkillList, SkillMeta } from '@/lib/skills';
+import { getPublicSkillMeta } from '@/lib/skillPresentation';
 
 interface HomeProps {
   skills: SkillMeta[];
 }
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const skills = await fetchSkillList();
+  const skills = (await fetchSkillList()).map(getPublicSkillMeta);
   return {
     props: { skills },
   };
@@ -35,14 +36,6 @@ export default function Home({ skills }: HomeProps) {
               <Link href="/skills" className="btn btn-primary btn-lg">
                 Browse All Skills
               </Link>
-              <a
-                href="https://github.com/bpollak/UCSD-Skills-Library"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-default btn-lg"
-              >
-                View on GitHub
-              </a>
             </p>
           </div>
           <div className="col-md-4">

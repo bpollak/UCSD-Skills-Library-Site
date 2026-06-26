@@ -4,11 +4,94 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Layout from '@/components/Layout';
 import { fetchSkillList, fetchSkillDetail, SkillDetail, SkillMeta } from '@/lib/skills';
-import { getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
+import { getPublicSkillMeta, getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
 
 interface SkillPageProps {
   skill: SkillDetail | null;
-  skills: SkillMeta[];
+  skills: SkillNavItem[];
+}
+
+interface SkillNavItem {
+  slug: string;
+  title: string;
+}
+
+const PUBLIC_BODY_OVERRIDES: Record<string, string> = {
+  'ucsd-dsmlp-deploy': `# UCSD DSMLP Deployment Packaging
+
+Use this skill to help prepare approved applications for TritonAI platform review and deployment packaging.
+
+## Public overview
+
+- Check that an application is structured for platform review.
+- Confirm that deployment packaging has the expected high-level artifacts.
+- Prepare a handoff summary for the platform team.
+- Keep deployment-specific values, credentials, infrastructure details, and environment configuration out of public documentation.
+
+## Public guardrails
+
+- Do not publish secrets, tokens, credentials, private environment files, internal cluster details, or non-public deployment values.
+- Do not include production data, restricted data, or private platform configuration in examples.
+- Use approved internal channels for deployment-specific instructions and handoff details.
+`,
+  'ucsd-memory': `# Use Local Agent Memory
+
+Use this skill to work with an approved local memory workspace for agent context.
+
+## Public overview
+
+- Search and summarize previously stored context.
+- Add, correct, or remove memory notes when the user explicitly asks.
+- Cite where remembered information came from when using it in an answer.
+
+## Public guardrails
+
+- Do not store API keys, passwords, tokens, private keys, session cookies, or unrelated sensitive data.
+- Do not publish local vault paths, private note contents, sync logs, or personal workspace structure.
+- Treat memory as user-controlled context, not as an authority for sensitive or regulated records.
+`,
+  'ucsd-memory-create': `# Set Up Local Agent Memory
+
+Use this skill to create an approved local memory workspace pattern for agent context.
+
+## Public overview
+
+- Establish a local note structure for user-controlled context.
+- Define provenance and cleanup expectations.
+- Support recurring maintenance patterns where they are approved.
+
+## Public guardrails
+
+- Do not publish private workspace paths, personal note contents, generated logs, or sync configuration.
+- Do not store API keys, passwords, tokens, private keys, session cookies, or unrelated sensitive data.
+- Keep setup automation and schedule details in approved internal documentation.
+`,
+  'ucsd-msgraph-calendar': `# Microsoft 365 Calendar Lookup
+
+Use this skill to help an approved agent understand calendar context through authorized Microsoft 365 access.
+
+## Public overview
+
+- Answer schedule, availability, and agenda questions after the user has approved access.
+- Use least-privilege permissions appropriate for calendar lookup.
+- Keep authentication and calendar data handling private to the approved user environment.
+
+## Public guardrails
+
+- Do not publish app registration values, tokens, cache files, tenant details, or local configuration paths.
+- Do not expose meeting details, attendee data, or calendar metadata on public pages.
+- Use approved internal setup documentation for authentication and configuration steps.
+`,
+};
+
+function preparePublicSkill(skill: SkillDetail | null): SkillDetail | null {
+  if (!skill) return null;
+  const publicMeta = getPublicSkillMeta(skill);
+  return {
+    ...skill,
+    ...publicMeta,
+    body: PUBLIC_BODY_OVERRIDES[skill.slug] || skill.body,
+  };
 }
 
 function SkillsBreadcrumb({ currentTitle }: { currentTitle?: string }) {
@@ -39,12 +122,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<SkillPageProps> = async ({ params }) => {
   const slug = params?.slug as string;
-  const [skill, skills] = await Promise.all([
+  const [skill, skillList] = await Promise.all([
     fetchSkillDetail(slug),
     fetchSkillList(),
   ]);
+  const skills = skillList.map((navSkill) => ({
+    slug: navSkill.slug,
+    title: getSkillPresentation(navSkill).title,
+  }));
   return {
-    props: { skill, skills },
+    props: { skill: preparePublicSkill(skill), skills },
   };
 };
 
@@ -53,11 +140,9 @@ function SidebarNav({
   skills,
 }: {
   currentSlug?: string;
-  skills: SkillMeta[];
+  skills: SkillNavItem[];
 }) {
-  const sectionSkills = [...skills].sort((a, b) =>
-    getSkillPresentation(a).title.localeCompare(getSkillPresentation(b).title)
-  );
+  const sectionSkills = [...skills].sort((a, b) => a.title.localeCompare(b.title));
 
   return (
     <section className="col-xs-12 col-md-3 sidebar-section" aria-label="Sidebar" role="complementary">
@@ -68,7 +153,6 @@ function SidebarNav({
             <Link href="/skills">All skills</Link>
           </li>
           {sectionSkills.map((sectionSkill) => {
-            const sectionPresentation = getSkillPresentation(sectionSkill);
             const isActive = sectionSkill.slug === currentSlug;
             return (
               <li
@@ -77,10 +161,10 @@ function SidebarNav({
                 key={sectionSkill.slug}
               >
                 {isActive ? (
-                  sectionPresentation.title
+                  sectionSkill.title
                 ) : (
                   <Link href={`/skills/${sectionSkill.slug}`}>
-                    {sectionPresentation.title}
+                    {sectionSkill.title}
                   </Link>
                 )}
               </li>
@@ -140,44 +224,22 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
                 {skill.body}
               </ReactMarkdown>
             </article>
-            <p className="skill-body-footer">
-              <a
-                href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-sm btn-default"
-              >
-                <span className="glyphicon glyphicon-new-window" aria-hidden="true" /> View on GitHub
-              </a>
-            </p>
           </section>
 
           <div className="panel panel-default skill-meta-panel">
             <div className="panel-body">
               <div className="row">
-                <div className="col-sm-3">
+                <div className="col-sm-4">
                   <strong>Skill ID</strong>
                   <p><code>{skill.slug}</code></p>
                 </div>
-                <div className="col-sm-3">
+                <div className="col-sm-4">
                   <strong>Category</strong>
                   <p>{presentation.category}</p>
                 </div>
-                <div className="col-sm-3">
+                <div className="col-sm-4">
                   <strong>Best For</strong>
                   <p>{presentation.audience}</p>
-                </div>
-                <div className="col-sm-3">
-                  <strong>Source</strong>
-                  <p>
-                    <a
-                      href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View on GitHub
-                    </a>
-                  </p>
                 </div>
               </div>
             </div>
@@ -200,26 +262,8 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
                     {' '}You also need the service access and local configuration required
                     by the integration.
                   </p>
-                  {skill.slug === 'ucsd-msgraph-calendar' && (
-                    <ul>
-                      <li>UC San Diego Microsoft 365 calendar access.</li>
-                      <li>A Microsoft Entra app registration or approved configured client.</li>
-                      <li>Delegated Microsoft Graph permissions such as <code>Calendars.Read</code> and <code>User.Read</code>.</li>
-                      <li>Device-code authentication and local Python dependencies.</li>
-                    </ul>
-                  )}
                 </div>
               )}
-              <p>
-                <a
-                  href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-default"
-                >
-                  View full skill on GitHub
-                </a>
-              </p>
             </div>
           </div>
 

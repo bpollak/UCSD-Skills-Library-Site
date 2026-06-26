@@ -4,13 +4,11 @@ export interface SkillMeta {
   slug: string;
   name: string;
   description: string;
-  allowedTools?: string;
   catalog?: SkillCatalog;
 }
 
 export interface SkillDetail extends SkillMeta {
   body: string;
-  raw: string;
 }
 
 export interface SkillCatalog {
@@ -112,7 +110,6 @@ export async function fetchSkillList(): Promise<SkillMeta[]> {
         slug: name,
         name: data.name || name,
         description: (data.description || '').replace(/\s+/g, ' ').trim(),
-        allowedTools: data['allowed-tools'] || '',
         catalog: normalizeCatalog(data.catalog),
       });
     } catch {
@@ -120,7 +117,6 @@ export async function fetchSkillList(): Promise<SkillMeta[]> {
         slug: name,
         name,
         description: '',
-        allowedTools: '',
       });
     }
   }
@@ -136,10 +132,8 @@ export async function fetchSkillDetail(slug: string): Promise<SkillDetail | null
       slug,
       name: data.name || slug,
       description: (data.description || '').replace(/\s+/g, ' ').trim(),
-      allowedTools: data['allowed-tools'] || '',
       catalog: normalizeCatalog(data.catalog),
       body: content,
-      raw,
     };
   } catch {
     return null;

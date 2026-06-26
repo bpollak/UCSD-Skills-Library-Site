@@ -4,14 +4,14 @@ import Layout from '@/components/Layout';
 import SkillCard from '@/components/SkillCard';
 import SearchBar from '@/components/SearchBar';
 import { fetchSkillList, SkillMeta } from '@/lib/skills';
-import { getSkillSearchText } from '@/lib/skillPresentation';
+import { getPublicSkillMeta, getSkillSearchText } from '@/lib/skillPresentation';
 
 interface SkillsPageProps {
   skills: SkillMeta[];
 }
 
 export const getStaticProps: GetStaticProps<SkillsPageProps> = async () => {
-  const skills = await fetchSkillList();
+  const skills = (await fetchSkillList()).map(getPublicSkillMeta);
   return {
     props: { skills },
   };
@@ -50,8 +50,9 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
             enable it using its Skill ID.
           </p>
           <p>
-            The full skill specification, reference files, and implementation
-            guide are available on GitHub for builders who need the details.
+            Setup details that include implementation internals, environment
+            configuration, or service-specific access requirements are kept in
+            approved internal channels.
           </p>
         </div>
       </div>
