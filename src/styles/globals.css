@@ -245,6 +245,19 @@ img {
   border: 1px solid #d8d7d7;
 }
 
+.skill-detail-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-detail-layout .sidebar-section {
+  order: 2;
+}
+
+.skill-detail-main {
+  order: 1;
+}
+
 .skills-library-nav h2 {
   border-bottom: 1px solid #d8d7d7;
   font-size: 22.4px;
@@ -296,6 +309,20 @@ img {
 
 .skills-library-nav > .navbar-list > li.active > a {
   color: #333;
+}
+
+@media only screen and (min-width: 992px) {
+  .skill-detail-layout {
+    flex-direction: row;
+  }
+
+  .skill-detail-layout .sidebar-section {
+    order: 1;
+  }
+
+  .skill-detail-main {
+    order: 2;
+  }
 }
 
 .skill-panel .panel-footer {

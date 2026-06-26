@@ -192,10 +192,10 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
     <Layout pageTitle={presentation.title}>
       <SkillsBreadcrumb currentTitle={presentation.title} />
 
-      <div className="row">
+      <div className="row skill-detail-layout">
         <SidebarNav currentSlug={skill.slug} skills={skills} />
 
-        <div className="col-xs-12 col-md-9">
+        <div className="col-xs-12 col-md-9 skill-detail-main">
           <section className="skill-detail-intro">
             <h1 className="page-header">{presentation.title}</h1>
             <p className="lead">{presentation.summary}</p>
