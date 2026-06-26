@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SkillMeta } from '@/lib/skills';
-import { getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
+import { getSkillPresentation } from '@/lib/skillPresentation';
 
 interface SkillCardProps {
   skill: SkillMeta;
@@ -8,49 +8,17 @@ interface SkillCardProps {
 
 export default function SkillCard({ skill }: SkillCardProps) {
   const presentation = getSkillPresentation(skill);
-  const statusIndicator = getSkillStatusIndicator(skill);
-  const tools = skill.allowedTools
-    ? skill.allowedTools.split(', ').filter(Boolean)
-    : [];
 
   return (
     <Link href={`/skills/${skill.slug}`} className="skill-panel-link">
-      <div className={`panel panel-default skill-panel skill-accent-${presentation.accent}`}>
-        <div className="panel-heading">
-          <span className="label label-primary">{presentation.category}</span>
-          {statusIndicator && (
-            <span
-              className={`label skill-status-label skill-status-${statusIndicator.tone}`}
-              title={statusIndicator.description}
-            >
-              <span className={`glyphicon glyphicon-${statusIndicator.icon}`} aria-hidden="true" />{' '}
-              {statusIndicator.label}
-            </span>
-          )}
-        </div>
+      <div className="panel panel-default skill-panel">
         <div className="panel-body">
-          <div className="media skill-card-media">
-            <div className="media-left">
-              <span className={`skill-card-icon glyphicon glyphicon-${presentation.icon}`} aria-hidden="true" />
-            </div>
-            <div className="media-body">
-              <h2 className="media-heading skill-card-title">{presentation.title}</h2>
-              <p>{presentation.summary}</p>
-            </div>
-          </div>
-          <dl className="skill-card-meta">
-            <dt>Skill ID</dt>
-            <dd><code>{skill.slug}</code></dd>
-            <dt>Best for</dt>
-            <dd>{presentation.audience}</dd>
-          </dl>
-          {tools.length > 0 && (
-            <p className="skill-card-tools">
-              {tools.map((tool) => (
-                <span className="label label-default" key={tool}>{tool}</span>
-              ))}
-            </p>
-          )}
+          <p className="skill-card-category">{presentation.category}</p>
+          <h2 className="skill-card-title">{presentation.title}</h2>
+          <p className="skill-card-summary">{presentation.summary}</p>
+          <p className="skill-card-audience">
+            <strong>Best for:</strong> {presentation.audience}
+          </p>
         </div>
         <div className="panel-footer">
           View skill guide <span className="glyphicon glyphicon-chevron-right" aria-hidden="true" />

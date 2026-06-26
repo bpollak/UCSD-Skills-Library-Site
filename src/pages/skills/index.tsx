@@ -1,11 +1,10 @@
 import { GetStaticProps } from 'next';
-import Link from 'next/link';
 import { useState } from 'react';
 import Layout from '@/components/Layout';
 import SkillCard from '@/components/SkillCard';
 import SearchBar from '@/components/SearchBar';
 import { fetchSkillList, SkillMeta } from '@/lib/skills';
-import { getSkillPresentation, getSkillSearchText } from '@/lib/skillPresentation';
+import { getSkillSearchText } from '@/lib/skillPresentation';
 
 interface SkillsPageProps {
   skills: SkillMeta[];
@@ -20,8 +19,6 @@ export const getStaticProps: GetStaticProps<SkillsPageProps> = async () => {
 
 export default function SkillsPage({ skills }: SkillsPageProps) {
   const [search, setSearch] = useState('');
-  const categories = Array.from(new Set(skills.map((skill) => getSkillPresentation(skill).category)));
-
   const filtered = skills.filter((skill) => {
     if (!search.trim()) return true;
     const q = search.toLowerCase();
@@ -30,10 +27,12 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
 
   return (
     <Layout pageTitle="Skills Library">
-      <ol className="breadcrumb breadcrumbs-list" aria-label="Breadcrumb">
-        <li><Link href="/">Home</Link></li>
-        <li className="active">Skills Library</li>
-      </ol>
+      <div className="row">
+        <ol className="breadcrumb breadcrumbs-list" aria-label="Breadcrumb">
+          <li><a href="https://tritonai.ucsd.edu">TritonAI</a></li>
+          <li aria-current="page">Skills Library</li>
+        </ol>
+      </div>
       <h1 className="page-header">Skills Library</h1>
       <p className="lead">
         Browse reusable TritonAI skills by what they help an agent do.

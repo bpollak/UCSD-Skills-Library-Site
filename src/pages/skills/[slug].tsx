@@ -6,11 +6,27 @@ import Layout from '@/components/Layout';
 import { fetchSkillList, fetchSkillDetail, SkillDetail, SkillMeta } from '@/lib/skills';
 import { getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
 
-const TRITONAI_URL = 'https://tritonai.ucsd.edu';
-
 interface SkillPageProps {
   skill: SkillDetail | null;
   skills: SkillMeta[];
+}
+
+function SkillsBreadcrumb({ currentTitle }: { currentTitle?: string }) {
+  return (
+    <div className="row">
+      <ol className="breadcrumb breadcrumbs-list" aria-label="Breadcrumb">
+        <li><a href="https://tritonai.ucsd.edu">TritonAI</a></li>
+        {currentTitle ? (
+          <>
+            <li><Link href="/skills">Skills Library</Link></li>
+            <li aria-current="page">{currentTitle}</li>
+          </>
+        ) : (
+          <li aria-current="page">Skills Library</li>
+        )}
+      </ol>
+    </div>
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -45,31 +61,31 @@ function SidebarNav({
 
   return (
     <section className="col-xs-12 col-md-3 sidebar-section" aria-label="Sidebar" role="complementary">
-      <article className="main-content-nav" aria-label="Skills Library Nav" role="navigation">
-        <h2><a href={TRITONAI_URL}>TritonAI</a></h2>
-        <ul>
-          <li className="active">
-            <a href="/skills">Skills Library</a>
-            <ul>
-              <li>
-                <a href="/skills">All skills</a>
-              </li>
-              {sectionSkills.map((sectionSkill) => {
-                const sectionPresentation = getSkillPresentation(sectionSkill);
-                const isActive = sectionSkill.slug === currentSlug;
-                return (
-                  <li className={isActive ? 'active' : ''} key={sectionSkill.slug}>
-                    <a
-                      href={`/skills/${sectionSkill.slug}`}
-                      aria-current={isActive ? 'page' : undefined}
-                    >
-                      {sectionPresentation.title}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
+      <article className="main-content-nav skills-library-nav" aria-label="Skills Library Nav" role="navigation">
+        <h2><Link href="/skills">Skills Library</Link></h2>
+        <ul className="navbar-list">
+          <li>
+            <Link href="/skills">All skills</Link>
           </li>
+          {sectionSkills.map((sectionSkill) => {
+            const sectionPresentation = getSkillPresentation(sectionSkill);
+            const isActive = sectionSkill.slug === currentSlug;
+            return (
+              <li
+                aria-current={isActive ? 'page' : undefined}
+                className={isActive ? 'active' : ''}
+                key={sectionSkill.slug}
+              >
+                {isActive ? (
+                  sectionPresentation.title
+                ) : (
+                  <Link href={`/skills/${sectionSkill.slug}`}>
+                    {sectionPresentation.title}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </article>
     </section>
@@ -94,29 +110,13 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
 
   return (
     <Layout pageTitle={presentation.title}>
+      <SkillsBreadcrumb currentTitle={presentation.title} />
+
       <div className="row">
         <SidebarNav currentSlug={skill.slug} skills={skills} />
 
         <div className="col-md-9">
-          <ol className="breadcrumb breadcrumbs-list" aria-label="Breadcrumb">
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/skills">Skills Library</Link></li>
-            <li className="active">{presentation.title}</li>
-          </ol>
-
           <section className="skill-detail-intro">
-            <p className="skill-detail-kicker">
-              <span className="text-uppercase library-kicker">{presentation.category}</span>
-              {statusIndicator && (
-                <span
-                  className={`label skill-status-label skill-status-${statusIndicator.tone}`}
-                  title={statusIndicator.description}
-                >
-                  <span className={`glyphicon glyphicon-${statusIndicator.icon}`} aria-hidden="true" />{' '}
-                  {statusIndicator.label}
-                </span>
-              )}
-            </p>
             <h1 className="page-header">{presentation.title}</h1>
             <p className="lead">{presentation.summary}</p>
             {statusIndicator && (
@@ -129,7 +129,14 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
 
           <section className="skill-description">
             <article className="skill-body-content">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: 'h2',
+                  h2: 'h3',
+                  h3: 'h4',
+                }}
+              >
                 {skill.body}
               </ReactMarkdown>
             </article>
@@ -148,15 +155,19 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
           <div className="panel panel-default skill-meta-panel">
             <div className="panel-body">
               <div className="row">
-                <div className="col-sm-4">
+                <div className="col-sm-3">
                   <strong>Skill ID</strong>
                   <p><code>{skill.slug}</code></p>
                 </div>
-                <div className="col-sm-4">
+                <div className="col-sm-3">
+                  <strong>Category</strong>
+                  <p>{presentation.category}</p>
+                </div>
+                <div className="col-sm-3">
                   <strong>Best For</strong>
                   <p>{presentation.audience}</p>
                 </div>
-                <div className="col-sm-4">
+                <div className="col-sm-3">
                   <strong>Source</strong>
                   <p>
                     <a
