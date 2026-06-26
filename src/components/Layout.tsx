@@ -64,7 +64,7 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { href: `${TRITONAI_URL}/tools/index.html`, label: 'AI Tools' },
-  { href: '/', label: 'Skills Library', local: true },
+  { href: '/skills', label: 'Skills Library', local: true },
 ];
 
 function isLocalSkillPath(pathname: string): boolean {
