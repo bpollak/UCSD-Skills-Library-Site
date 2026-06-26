@@ -75,9 +75,14 @@ async function fetchSkillNames(): Promise<string[]> {
     // Fall back to the manifest for local/offline parity with the original site.
   }
 
-  const manifestRaw = await fetchText(MANIFEST_URL);
-  const manifest = JSON.parse(manifestRaw);
-  return manifest.skills || [];
+  try {
+    const manifestRaw = await fetchText(MANIFEST_URL);
+    const manifest = JSON.parse(manifestRaw);
+    return manifest.skills || [];
+  } catch {
+    // No manifest available — return empty list so the build can still proceed
+    return [];
+  }
 }
 
 function normalizeCatalog(catalog: unknown): SkillCatalog | undefined {

@@ -4,8 +4,6 @@ import Layout from '@/components/Layout';
 import { fetchSkillList, fetchSkillDetail, SkillDetail, SkillMeta } from '@/lib/skills';
 import { getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
 
-const TRITONAI_URL = 'https://tritonai.ucsd.edu';
-
 interface SkillPageProps {
   skill: SkillDetail | null;
   skills: SkillMeta[];
@@ -42,53 +40,33 @@ function SidebarNav({
   );
 
   return (
-    <section className="col-xs-12 col-md-3 sidebar-section" aria-label="Sidebar" role="complementary">
-      <article className="main-content-nav" aria-label="Sidebar Nav" role="navigation">
-        <h2><a href={TRITONAI_URL}>TritonAI</a></h2>
+    <section className="col-xs-12 col-md-3 sidebar-section" aria-label="Skills Library" role="complementary">
+      <article className="main-content-nav" aria-label="Skills Library Nav" role="navigation">
+        <h2><a href="/skills">Skills Library</a></h2>
         <ul>
           <li>
-            <a href={`${TRITONAI_URL}/about/index.html`}>About</a>
+            <a href="/skills">All skills</a>
           </li>
-          <li>
-            <a href={`${TRITONAI_URL}/tritongpt/index.html`}>TritonGPT</a>
-          </li>
-          <li>
-            <a href={`${TRITONAI_URL}/training-resources/index.html`}>Training & Resources</a>
-          </li>
-          <li>
-            <a href={`${TRITONAI_URL}/developer-apis/index.html`}>Developer APIs</a>
-          </li>
-          <li>
-            <a href={`${TRITONAI_URL}/tools/index.html`}>AI Tools</a>
-          </li>
-          <li className="active">
-            <a href="/skills">Skills Library</a>
-            <ul>
-              <li>
-                <a href="/skills">All skills</a>
+          {sectionSkills.map((sectionSkill) => {
+            const sectionPresentation = getSkillPresentation(sectionSkill);
+            const isActive = sectionSkill.slug === currentSlug;
+            if (isActive) {
+              return (
+                <li className="active" key={sectionSkill.slug}>
+                  <a href={`/skills/${sectionSkill.slug}`} aria-current="page">
+                    {sectionPresentation.title}
+                  </a>
+                </li>
+              );
+            }
+            return (
+              <li key={sectionSkill.slug}>
+                <a href={`/skills/${sectionSkill.slug}`}>
+                  {sectionPresentation.title}
+                </a>
               </li>
-              {sectionSkills.map((sectionSkill) => {
-                const sectionPresentation = getSkillPresentation(sectionSkill);
-                const isActive = sectionSkill.slug === currentSlug;
-                if (isActive) {
-                  return (
-                    <li className="active" key={sectionSkill.slug}>
-                      <a href={`/skills/${sectionSkill.slug}`} aria-current="page">
-                        {sectionPresentation.title}
-                      </a>
-                    </li>
-                  );
-                }
-                return (
-                  <li key={sectionSkill.slug}>
-                    <a href={`/skills/${sectionSkill.slug}`}>
-                      {sectionPresentation.title}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </li>
+            );
+          })}
         </ul>
       </article>
     </section>
