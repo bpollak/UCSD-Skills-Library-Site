@@ -1,7 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Link from 'next/link';
-import ReactMarkdown, { type Components } from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import Layout from '@/components/Layout';
 import { fetchSkillList, fetchSkillDetail, SkillDetail, SkillMeta } from '@/lib/skills';
 import { getSkillPresentation, getSkillStatusIndicator } from '@/lib/skillPresentation';
@@ -10,16 +8,6 @@ interface SkillPageProps {
   skill: SkillDetail | null;
   skills: SkillMeta[];
 }
-
-const markdownComponents: Components = {
-  h1: 'h2',
-  h2: 'h3',
-  h3: 'h4',
-  h4: 'h5',
-  h5: 'h6',
-};
-
-const INSTALL_SCRIPT_URL = 'https://raw.githubusercontent.com/bpollak/UCSD-Skills-Library/main/scripts/install-skills.sh';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const skills = await fetchSkillList();
@@ -57,10 +45,6 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
   const sectionSkills = [...skills].sort((a, b) => (
     getSkillPresentation(a).title.localeCompare(getSkillPresentation(b).title)
   ));
-  const tools = skill.allowedTools
-    ? skill.allowedTools.split(', ').filter(Boolean)
-    : [];
-  const installCommand = `curl -fsSL ${INSTALL_SCRIPT_URL} | SKILLS="${skill.slug}" bash`;
   const isLimitedAccess = statusIndicator?.tone === 'limited';
 
   return (
@@ -118,33 +102,19 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
               </p>
             </div>
           </div>
-          {tools.length > 0 && (
-            <p className="skill-tool-list">
-              <strong>Allowed Tools: </strong>
-              {tools.map((tool) => (
-                <span className="badge" key={tool}>{tool}</span>
-              ))}
-            </p>
-          )}
         </div>
       </div>
 
       <div className="panel panel-default skill-access-panel">
         <div className="panel-heading">
-          <h2 className="panel-title">Access and Installation</h2>
+          <h2 className="panel-title">Enable in TritonAI Harness</h2>
         </div>
         <div className="panel-body">
           <p>
-            Install the full skill folder into the skills directory your local
-            agent loads. The installer defaults to <code>~/.agents/ucsd/skills</code>.
+            This skill is available in the TritonAI Harness. If it is marked as
+            generally available, you can enable it by toggling it on in the
+            Harness interface using the Skill ID above.
           </p>
-          <pre className="install-command"><code>{installCommand}</code></pre>
-          {statusIndicator?.tone === 'experimental' && (
-            <p>
-              This skill is generally available, but it remains experimental while
-              the workflow is reviewed and refined.
-            </p>
-          )}
           {isLimitedAccess && (
             <div className="limited-access-requirements">
               <p>
@@ -164,11 +134,12 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
           )}
           <p>
             <a
-              href="https://github.com/bpollak/UCSD-Skills-Library#access-install-and-use"
+              href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="btn btn-default"
             >
-              View full install instructions on GitHub
+              View full skill on GitHub
             </a>
           </p>
         </div>
@@ -210,11 +181,17 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
 
         <section className="main-section col-md-9 skill-detail" aria-label="Main Content">
           <div className="alert alert-info">
-            <strong>Original skill description:</strong> {skill.description}
+            <strong>Description:</strong> {skill.description}
           </div>
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-            {skill.body}
-          </ReactMarkdown>
+          <p>
+            <a
+              href={`https://github.com/bpollak/UCSD-Skills-Library/tree/main/skills/${skill.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View the full skill specification, reference files, and implementation guide on GitHub
+            </a>
+          </p>
         </section>
       </div>
 

@@ -36,25 +36,23 @@ export default function SkillsPage({ skills }: SkillsPageProps) {
       </ol>
       <h1 className="page-header">Skills Library</h1>
       <p className="lead">
-        Browse reusable TritonAI skills and optional agent workspace helpers by what
-        they help an agent do. Skill IDs are still shown for installation and
-        reference, with friendly titles and practical use cases.
+        Browse reusable TritonAI skills by what they help an agent do.
+        Each skill can be enabled directly in the TritonAI Harness.
       </p>
 
       <div className="panel panel-default skill-access-panel">
         <div className="panel-heading">
-          <h2 className="panel-title">Use these skills</h2>
+          <h2 className="panel-title">Using these skills</h2>
         </div>
         <div className="panel-body">
           <p>
-            Skills are public to read on GitHub. To use one in a local agent,
-            install the full skill folder into the skills directory your agent loads.
+            Skills are publicly available and can be enabled in the TritonAI
+            Harness. Click any skill to see its details, status, and how to
+            enable it using its Skill ID.
           </p>
-          <pre className="install-command"><code>curl -fsSL https://raw.githubusercontent.com/bpollak/UCSD-Skills-Library/main/scripts/install-skills.sh | bash</code></pre>
           <p>
-            The installer defaults to <code>~/.agents/ucsd/skills</code> and installs
-            generally available skills. Skill detail pages show one-skill install
-            commands and any limited-access requirements.
+            The full skill specification, reference files, and implementation
+            guide are available on GitHub for builders who need the details.
           </p>
         </div>
       </div>
