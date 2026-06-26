@@ -160,13 +160,9 @@ function SidebarNav({
                 className={isActive ? 'active' : ''}
                 key={sectionSkill.slug}
               >
-                {isActive ? (
-                  sectionSkill.title
-                ) : (
-                  <Link href={`/skills/${sectionSkill.slug}`}>
-                    {sectionSkill.title}
-                  </Link>
-                )}
+                <Link href={`/skills/${sectionSkill.slug}`}>
+                  {sectionSkill.title}
+                </Link>
               </li>
             );
           })}
@@ -199,7 +195,7 @@ export default function SkillPage({ skill, skills }: SkillPageProps) {
       <div className="row">
         <SidebarNav currentSlug={skill.slug} skills={skills} />
 
-        <div className="col-md-9">
+        <div className="col-xs-12 col-md-9">
           <section className="skill-detail-intro">
             <h1 className="page-header">{presentation.title}</h1>
             <p className="lead">{presentation.summary}</p>

@@ -273,7 +273,7 @@ img {
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
-  padding: 20px 24px;
+  padding: 0;
 }
 
 .skills-library-nav > .navbar-list > li:last-child {
@@ -285,7 +285,6 @@ img {
 .skills-library-nav > .navbar-list > li > a:hover {
   color: #333;
   display: block;
-  margin: -20px -24px;
   padding: 20px 24px;
   text-decoration: none;
 }
@@ -293,6 +292,10 @@ img {
 .skills-library-nav > .navbar-list > li.active {
   background: #f4efe4;
   font-weight: 700;
+}
+
+.skills-library-nav > .navbar-list > li.active > a {
+  color: #333;
 }
 
 .skill-panel .panel-footer {
@@ -619,6 +622,38 @@ body.offcanvas-open {
 }
 
 @media only screen and (max-width: 767px) {
+  .sidebar-section {
+    float: none;
+    margin-bottom: 24px;
+    width: 100%;
+  }
+
+  .skills-library-nav {
+    margin-bottom: 0;
+  }
+
+  .skills-library-nav h2 {
+    font-size: 30px;
+    padding: 28px 24px;
+  }
+
+  .skills-library-nav h2 a,
+  .skills-library-nav h2 a:focus,
+  .skills-library-nav h2 a:hover {
+    white-space: normal;
+  }
+
+  .skills-library-nav > .navbar-list > li {
+    font-size: 20px;
+  }
+
+  .skills-library-nav > .navbar-list > li > a,
+  .skills-library-nav > .navbar-list > li > a:focus,
+  .skills-library-nav > .navbar-list > li > a:hover {
+    min-height: 56px;
+    padding: 18px 24px;
+  }
+
   .msearch .mobile-search-content {
     background-color: #fff;
     border-bottom: 2px solid #bdbdbd;
