@@ -146,7 +146,7 @@ function SidebarNav({
 
   return (
     <section className="col-xs-12 col-md-3 sidebar-section" aria-label="Sidebar" role="complementary">
-      <article className="main-content-nav skills-library-nav" aria-label="Skills Library Nav" role="navigation">
+      <article className="main-content-nav skills-library-nav" aria-label="Sidebar Nav" role="navigation">
         <h2><Link href="/skills">Skills Library</Link></h2>
         <ul className="navbar-list">
           <li>
