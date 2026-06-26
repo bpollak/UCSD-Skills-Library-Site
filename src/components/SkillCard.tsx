@@ -11,9 +11,15 @@ export default function SkillCard({ skill }: SkillCardProps) {
 
   return (
     <Link href={`/skills/${skill.slug}`} className="skill-panel-link">
-      <div className="panel panel-default skill-panel">
+      <div className={`panel panel-default skill-panel skill-accent-${presentation.accent}`}>
         <div className="panel-body">
-          <p className="skill-card-category">{presentation.category}</p>
+          <div className="skill-card-header">
+            <span
+              className={`skill-card-icon-mark glyphicon glyphicon-${presentation.icon}`}
+              aria-hidden="true"
+            />
+            <p className="skill-card-category">{presentation.category}</p>
+          </div>
           <h2 className="skill-card-title">{presentation.title}</h2>
           <p className="skill-card-summary">{presentation.summary}</p>
           <p className="skill-card-audience">

@@ -92,12 +92,16 @@ img {
 
 .skill-panel-link:focus .panel,
 .skill-panel-link:hover .panel {
-  border-color: #00629b;
+  border-color: var(--skill-accent);
   box-shadow: 0 2px 10px rgba(0, 40, 85, 0.16);
   transform: translateY(-2px);
 }
 
 .skill-panel {
+  --skill-accent: #00629b;
+  --skill-accent-dark: #004a75;
+  --skill-accent-label-text: #fff;
+  --skill-accent-soft: #e8f2f7;
   border-top: 1px solid #ddd;
   display: flex;
   flex-direction: column;
@@ -171,12 +175,32 @@ img {
   flex: 1;
 }
 
+.skill-card-header {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.skill-card-icon-mark {
+  background: var(--skill-accent-soft);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 50%;
+  color: var(--skill-accent-dark);
+  flex: 0 0 auto;
+  font-size: 15px;
+  height: 34px;
+  line-height: 32px;
+  text-align: center;
+  width: 34px;
+}
+
 .skill-card-category {
   color: #5d6066;
   font-size: 0.85em;
   font-weight: 700;
   letter-spacing: 0;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .skill-card-title {
